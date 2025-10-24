@@ -18,26 +18,26 @@ function displayMCQuestion() {
 
     const question = window.currentQuestions[window.currentQuestionIndex];
     document.getElementById('mcPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('koreanWord').textContent = question.korean;
-    document.getElementById('mcExampleSentence').textContent = question.korExample;
+    document.getElementById('koreanWord').textContent = question.english;  // 영어 표시
+    document.getElementById('mcExampleSentence').textContent = question.example;  // 영어 예문
 
-    // 선택지 생성 (같은 품사 우선)
-    const answers = [question.english];
+    // 선택지 생성 (한글, 같은 품사 우선)
+    const answers = [question.korean];
     const samePosList = window.currentQuestions.filter(q => q.id !== question.id && q.pos === question.pos);
     
     // 같은 품사에서 먼저 선택
     while (answers.length < 4 && samePosList.length >= answers.length) {
         const randomWord = samePosList[Math.floor(Math.random() * samePosList.length)];
-        if (!answers.includes(randomWord.english)) {
-            answers.push(randomWord.english);
+        if (!answers.includes(randomWord.korean)) {
+            answers.push(randomWord.korean);
         }
     }
     
     // 부족하면 다른 품사에서 선택
     while (answers.length < 4) {
         const randomWord = window.currentQuestions[Math.floor(Math.random() * window.currentQuestions.length)];
-        if (!answers.includes(randomWord.english)) {
-            answers.push(randomWord.english);
+        if (!answers.includes(randomWord.korean)) {
+            answers.push(randomWord.korean);
         }
     }
 
@@ -51,7 +51,7 @@ function displayMCQuestion() {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
         btn.textContent = answer;
-        btn.onclick = () => selectMCAnswer(answer, question.english, idx);
+        btn.onclick = () => selectMCAnswer(answer, question.korean, idx);  // 한글이 정답
         choicesContainer.appendChild(btn);
     });
 
@@ -326,16 +326,4 @@ function showResultModal() {
 function retryMode() {
     document.getElementById('resultModal').classList.remove('show');
     startMode(window.currentDifficulty, window.currentLevel, window.currentMode);
-}
-
-/**
- * 배열 섞기
- */
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
 }
