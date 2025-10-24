@@ -20,7 +20,7 @@
         </div>
 
         <!-- 학습 모드 화면 -->
-        <div id="learningMode" class="learning-mode" style="display: none;">
+        <div id="learningMode" class="learning-mode">
             <div class="learning-container">
                 <div class="learning-header">
                     <div>
@@ -32,34 +32,37 @@
                             </div>
                         </div>
                     </div>
-                    <button class="close-btn" onclick="backToLevelSelection()">✕</button>
+                    <button class="action-btn back" onclick="backToLevelSelection()">← 돌아가기</button>
                 </div>
 
                 <!-- Multiple Choice 영역 -->
-                <div id="mcArea" class="quiz-area" style="display: none;">
-                    <div class="word-display">
-                        <div class="english-word" id="mcEnglish"></div>
-                        <div class="word-pos" id="mcPos"></div>
+                <div id="mcMode">
+                    <div class="question-container">
+                        <div class="pos-label" id="mcPosLabel"></div>
+                        <div class="question-text" id="koreanWord"></div>
+                        <div class="example-sentence" id="mcExampleSentence"></div>
+                        <div class="choices" id="choices"></div>
+                        <div class="feedback" id="mcFeedback"></div>
+                        <div class="action-buttons">
+                            <button class="action-btn next" id="mcNextBtn" onclick="nextMCQuestion()" disabled>다음</button>
+                        </div>
                     </div>
-                    <div class="choices" id="mcChoices"></div>
-                    <div class="feedback" id="mcFeedback"></div>
-                    <button class="next-btn" id="mcNextBtn" onclick="nextMCQuestion()" style="display: none;">다음</button>
                 </div>
 
                 <!-- Typing Practice 영역 -->
-                <div id="tpArea" class="quiz-area" style="display: none;">
-                    <div class="word-display">
-                        <div class="korean-word" id="tpKorean"></div>
-                        <div class="word-pos" id="tpPos"></div>
-                        <div class="example-sentence" id="tpExample"></div>
-                    </div>
-                    <div class="typing-input-area">
-                        <div class="input-boxes" id="inputBoxes"></div>
-                    </div>
-                    <div class="feedback" id="tpFeedback"></div>
-                    <div class="button-group">
-                        <button class="submit-btn" id="tpSubmitBtn" onclick="submitTypingPractice()">제출</button>
-                        <button class="next-btn" id="tpNextBtn" onclick="nextTPQuestion()" style="display: none;">다음</button>
+                <div id="tpMode">
+                    <div class="question-container">
+                        <div class="pos-label" id="tpPosLabel"></div>
+                        <div class="question-text" id="tpKoreanWord"></div>
+                        <div class="example-sentence" id="tpExampleSentence"></div>
+                        <div class="typing-input-area">
+                            <div class="input-boxes" id="inputBoxes"></div>
+                        </div>
+                        <div class="feedback" id="tpFeedback"></div>
+                        <div class="action-buttons">
+                            <button class="action-btn submit" id="tpSubmitBtn" onclick="submitTypingPractice()">제출</button>
+                            <button class="action-btn next" id="tpNextBtn" onclick="nextTPQuestion()" style="display: none;">다음</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +76,7 @@
                 <div class="result-message" id="resultMessage"></div>
                 <div class="modal-buttons">
                     <button class="retry-btn" onclick="retryMode()">다시 시도</button>
-                    <button class="back-btn" onclick="backToLevelSelection()">레벨 선택</button>
+                    <button class="back-btn-modal" onclick="backToLevelSelection()">나가기</button>
                 </div>
             </div>
         </div>
