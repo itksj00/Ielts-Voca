@@ -47,21 +47,58 @@ function renderLevelSelection() {
 }
 
 /**
- * 모드 선택 표시 (MC 또는 TP)
+ * 모드 선택 모달 표시 (MC 또는 TP)
  */
 function showModeSelection(difficulty, level) {
     const levelKey = `${difficulty}-${level}`;
     const levelData = window.progress.levels[levelKey];
     
-    let message = `Level ${level} 학습 모드를 선택하세요:\n\n`;
-    message += `MC (Multiple Choice): ${levelData.mcPassed ? '✓ 완료' : '미완료'}\n`;
-    message += `TP (Typing Practice): ${levelData.tpPassed ? '✓ 완료' : '미완료'}\n\n`;
-    message += `어떤 모드를 시작하시겠습니까?`;
+    // 모드 선택 모달 HTML 생성
+    const modalHTML = `
+        <div id="modeSelectModal" class="modal show">
+            <div class="modal-content mode-select-modal">
+                <h2>Level ${level} - 학습 모드 선택</h2>
+                <p class="mode-select-subtitle">원하는 학습 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn mc-btn" onclick="selectMode('${difficulty}', ${level}, 'mc')">
+                        <div class="mode-icon">📝</div>
+                        <div class="mode-title">Multiple Choice</div>
+                        <div class="mode-status ${levelData.mcPassed ? 'passed' : ''}">${levelData.mcPassed ? '✓ 완료' : '미완료'}</div>
+                    </button>
+                    <button class="mode-btn tp-btn" onclick="selectMode('${difficulty}', ${level}, 'tp')">
+                        <div class="mode-icon">⌨️</div>
+                        <div class="mode-title">Typing Practice</div>
+                        <div class="mode-status ${levelData.tpPassed ? 'passed' : ''}">${levelData.tpPassed ? '✓ 완료' : '미완료'}</div>
+                    </button>
+                </div>
+                <button class="cancel-btn" onclick="closeModeSelectModal()">취소</button>
+            </div>
+        </div>
+    `;
     
-    const mode = prompt(message + '\n\n"mc" 또는 "tp"를 입력하세요:');
-    
-    if (mode === 'mc' || mode === 'tp') {
-        startMode(difficulty, level, mode);
+    // 기존 모달 제거 후 새로 추가
+    const existingModal = document.getElementById('modeSelectModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+/**
+ * 모드 선택
+ */
+function selectMode(difficulty, level, mode) {
+    closeModeSelectModal();
+    startMode(difficulty, level, mode);
+}
+
+/**
+ * 모드 선택 모달 닫기
+ */
+function closeModeSelectModal() {
+    const modal = document.getElementById('modeSelectModal');
+    if (modal) {
+        modal.remove();
     }
 }
 
