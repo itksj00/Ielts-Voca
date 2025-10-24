@@ -1,4 +1,4 @@
-const levelData = {
+window.IELTS5_DATA = {
 1: [
     {id: 1, english: "inhibit", korean: "억제하다", pos: "verb", example: "Stress can inhibit learning.", korExample: "스트레스는 학습을 억제할 수 있습니다."},
     {id: 2, english: "achieve", korean: "달성하다", pos: "verb", example: "She worked hard to achieve her goals.", korExample: "그녀는 목표를 달성하기 위해 열심히 일했습니다."},

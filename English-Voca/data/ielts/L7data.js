@@ -1,4 +1,4 @@
-const levelData = {
+window.IELTS7_DATA = {
 1: [
     {id: 1, english: "ubiquitous", korean: "편재하는", pos: "adjective", example: "Smartphones have become ubiquitous in modern society.", korExample: "스마트폰은 현대 사회에서 편재하게 되었습니다."},
     {id: 2, english: "mitigate", korean: "완화하다", pos: "verb", example: "Policies aim to mitigate climate change effects.", korExample: "정책들은 기후 변화 영향을 완화하는 것을 목표로 합니다."},

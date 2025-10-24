@@ -54,6 +54,61 @@ body {
 }
 
 /* ========== Collection 선택 ========== */
+.main-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menu-card {
+    background: white;
+    border-radius: 20px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.menu-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.menu-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5em;
+}
+
+.menu-icon.study {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.menu-icon.stats {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.menu-card h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.menu-card p {
+    color: #666;
+    font-size: 1.1em;
+}
+
 .collection-selection {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -889,5 +944,29 @@ body {
     
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* 모달 반응형 */
+    .mode-select-modal {
+        max-width: 90%;
+        padding: 30px 20px;
+    }
+    
+    .mode-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .mode-btn {
+        padding: 25px 15px;
+    }
+    
+    .input-boxes {
+        gap: 5px;
+    }
+    
+    .input-box {
+        width: 35px;
+        height: 45px;
+        font-size: 1.2em;
     }
 }

@@ -1,4 +1,4 @@
-const levelData = {
+window.IELTS6_DATA = {
 1: [
     {id: 1, english: "implement", korean: "시행하다", pos: "verb", example: "The government will implement new policies next year.", korExample: "정부는 내년에 새로운 정책을 시행할 것입니다."},
     {id: 2, english: "phenomenon", korean: "현상", pos: "noun", example: "Social media is a modern phenomenon.", korExample: "소셜 미디어는 현대적인 현상입니다."},
