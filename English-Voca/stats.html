@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학습 통계</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="location.href='index.html'">← 뒤로</button>
+            <h1>📊 학습 통계</h1>
+            <p>나의 학습 현황</p>
+        </div>
+
+        <div class="stats-container">
+            <!-- 전체 통계 -->
+            <div class="stats-section">
+                <h2>📈 전체 통계</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalWords">0개</div>
+                        <div class="stat-label">학습한 단어</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCorrect">0개</div>
+                        <div class="stat-label">정답 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalAccuracy">0%</div>
+                        <div class="stat-label">정답률</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="completedLevels">0개</div>
+                        <div class="stat-label">완료한 레벨</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 난이도별 진행률 -->
+            <div class="stats-section">
+                <h2>📚 난이도별 진행률</h2>
+                <div class="difficulty-progress">
+                    <div class="difficulty-progress-item">
+                        <div class="difficulty-progress-header">
+                            <span class="difficulty-name">IELTS Band 5</span>
+                            <span class="difficulty-percentage" id="ielts5-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ielts5-progress" style="width: 0%; background: #4CAF50;"></div>
+                        </div>
+                    </div>
+                    <div class="difficulty-progress-item">
+                        <div class="difficulty-progress-header">
+                            <span class="difficulty-name">IELTS Band 6</span>
+                            <span class="difficulty-percentage" id="ielts6-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ielts6-progress" style="width: 0%; background: #2196F3;"></div>
+                        </div>
+                    </div>
+                    <div class="difficulty-progress-item">
+                        <div class="difficulty-progress-header">
+                            <span class="difficulty-name">IELTS Band 7</span>
+                            <span class="difficulty-percentage" id="ielts7-percentage">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ielts7-progress" style="width: 0%; background: #9C27B0;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 자주 틀린 단어 -->
+            <div class="stats-section">
+                <h2>❌ 자주 틀린 단어 TOP 10</h2>
+                <div class="mistake-list" id="mistakeList">
+                    <div class="empty-state">아직 틀린 단어가 없습니다.</div>
+                </div>
+            </div>
+
+            <!-- 데이터 관리 -->
+            <div class="stats-section">
+                <h2>🔧 데이터 관리</h2>
+                <div class="data-management">
+                    <button class="reset-btn" onclick="resetAllData()">⚠️ 모든 데이터 초기화</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProgressFromStorage();
+            loadStatsFromStorage();
+            updateStatsDisplay();
+        });
+
+        function updateStatsDisplay() {
+            // 전체 통계
+            const totalAttempts = window.stats.totalAttempts || 0;
+            const totalCorrect = window.stats.totalCorrect || 0;
+            const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+            
+            // 학습한 단어 수 계산 (learnedWords 사용)
+            const learnedWordsCount = Object.keys(window.stats.learnedWords || {}).length;
+            
+            document.getElementById('totalWords').textContent = learnedWordsCount + '개';
+            document.getElementById('totalCorrect').textContent = totalCorrect + '개';
+            document.getElementById('totalAccuracy').textContent = accuracy + '%';
+
+            // 완료한 레벨 계산
+            let completedLevels = 0;
+            ['ielts5', 'ielts6', 'ielts7'].forEach(diff => {
+                for (let i = 1; i <= 10; i++) {
+                    const levelKey = `${diff}-${i}`;
+                    if (window.progress.levels[levelKey]) {
+                        const level = window.progress.levels[levelKey];
+                        if (level.mcPassed && level.tpPassed) {
+                            completedLevels++;
+                        }
+                    }
+                }
+            });
+            document.getElementById('completedLevels').textContent = completedLevels + '개';
+
+            // 난이도별 진행률
+            ['ielts5', 'ielts6', 'ielts7'].forEach(diff => {
+                let completed = 0;
+                for (let i = 1; i <= 10; i++) {
+                    const levelKey = `${diff}-${i}`;
+                    if (window.progress.levels[levelKey]) {
+                        const level = window.progress.levels[levelKey];
+                        if (level.mcPassed && level.tpPassed) {
+                            completed++;
+                        }
+                    }
+                }
+                const percentage = (completed / 10) * 100;
+                document.getElementById(`${diff}-progress`).style.width = percentage + '%';
+                document.getElementById(`${diff}-percentage`).textContent = Math.round(percentage) + '%';
+            });
+
+            // 자주 틀린 단어
+            const mistakeList = document.getElementById('mistakeList');
+            const mistakes = Object.values(window.stats.mistakes || {})
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 10);
+
+            if (mistakes.length === 0) {
+                mistakeList.innerHTML = '<div class="empty-state">아직 틀린 단어가 없습니다.</div>';
+            } else {
+                mistakeList.innerHTML = mistakes.map(mistake => `
+                    <div class="mistake-item">
+                        <div class="mistake-word">
+                            <span class="english">${mistake.english}</span>
+                            <span class="korean">${mistake.korean}</span>
+                        </div>
+                        <div class="mistake-count">${mistake.count}회</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function resetAllData() {
+            if (confirm('정말로 모든 학습 데이터를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                localStorage.clear();
+                alert('모든 데이터가 초기화되었습니다.');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
