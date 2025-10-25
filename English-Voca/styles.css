@@ -1131,3 +1131,23 @@ body {
 #mcMode, #tpMode {
     display: none;
 }
+
+/* ========== 스피커 버튼 ========== */
+.speaker-btn {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+    vertical-align: middle;
+}
+
+.speaker-btn:hover {
+    transform: scale(1.2);
+}
+
+.speaker-btn:active {
+    transform: scale(0.95);
+}

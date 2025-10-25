@@ -1,6 +1,22 @@
 // ========== 퀴즈 로직 (Shrimp 방식) ==========
 
 /**
+ * 영어 단어 발음 재생
+ */
+function speakWord(text) {
+    // 이전 발음 중지
+    speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.85; // 속도 (0.1 ~ 10)
+    utterance.pitch = 1; // 음높이 (0 ~ 2)
+    utterance.volume = 1; // 볼륨 (0 ~ 1)
+    
+    speechSynthesis.speak(utterance);
+}
+
+/**
  * Multiple Choice 문제 표시
  */
 function displayMCQuestion() {
@@ -17,9 +33,13 @@ function displayMCQuestion() {
     document.getElementById('mcNextBtn').disabled = true;
 
     const question = window.currentQuestions[window.currentQuestionIndex];
+    
+    // 영어 단어 + 스피커 버튼
+    const wordWithSpeaker = question.english + ' <button class="speaker-btn" onclick="speakWord(\'' + question.english + '\')">🔊</button>';
+    
     document.getElementById('mcPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('koreanWord').textContent = question.english;  // 영어 표시
-    document.getElementById('mcExampleSentence').textContent = question.example;  // 영어 예문
+    document.getElementById('koreanWord').innerHTML = wordWithSpeaker;  // innerHTML으로 변경
+    document.getElementById('mcExampleSentence').textContent = question.example;
 
     // 선택지 생성 (한글, 같은 품사 우선)
     const answers = [question.korean];
@@ -140,8 +160,12 @@ function displayTPQuestion() {
     }
 
     const question = window.currentQuestions[window.currentQuestionIndex];
+    
+    // 한글 뜻 + 스피커 버튼 (영어 단어 발음)
+    const koreanWithSpeaker = question.korean + ' <button class="speaker-btn" onclick="speakWord(\'' + question.english + '\')">🔊</button>';
+    
     document.getElementById('tpPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('tpKoreanWord').textContent = question.korean;
+    document.getElementById('tpKoreanWord').innerHTML = koreanWithSpeaker;  // innerHTML으로 변경
     document.getElementById('tpExampleSentence').textContent = question.korExample;
 
     // 입력 박스 생성
@@ -326,4 +350,16 @@ function showResultModal() {
 function retryMode() {
     document.getElementById('resultModal').classList.remove('show');
     startMode(window.currentDifficulty, window.currentLevel, window.currentMode);
+}
+
+/**
+ * 배열 섞기
+ */
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
 }
