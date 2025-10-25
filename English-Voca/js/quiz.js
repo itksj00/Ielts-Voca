@@ -161,11 +161,8 @@ function displayTPQuestion() {
 
     const question = window.currentQuestions[window.currentQuestionIndex];
     
-    // 한글 뜻 + 스피커 버튼 (영어 단어 발음)
-    const koreanWithSpeaker = question.korean + ' <button class="speaker-btn" onclick="speakWord(\'' + question.english + '\')">🔊</button>';
-    
     document.getElementById('tpPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('tpKoreanWord').innerHTML = koreanWithSpeaker;  // innerHTML으로 변경
+    document.getElementById('tpKoreanWord').textContent = question.korean;  // 스피커 버튼 제거
     document.getElementById('tpExampleSentence').textContent = question.korExample;
 
     // 입력 박스 생성
