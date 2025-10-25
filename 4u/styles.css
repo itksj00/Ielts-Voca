@@ -1264,3 +1264,15 @@ body {
 .collection-icon.topik56 {
     background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
 }
+
+/* ========== 텍스트 아이콘 스타일 ========== */
+.icon-text {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+}
+
+.menu-icon .icon-text,
+.collection-icon .icon-text {
+    font-family: 'Arial Black', sans-serif;
+}

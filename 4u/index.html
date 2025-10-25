@@ -9,20 +9,20 @@
 <body>
     <!-- 언어 선택 버튼 -->
     <div class="language-selector">
-        <button class="lang-btn active" onclick="setLanguage('ko')">한국어</button>
-        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn active" id="langKo" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="langEn" onclick="setLanguage('en')">English</button>
     </div>
 
     <div class="container">
         <div class="header">
-            <h1 id="mainTitle">🐺 Vocabulary Learning</h1>
+            <h1 id="mainTitle">🐺 Voca for you</h1>
             <p id="mainSubtitle">당신의 어휘 실력 향상을 위한 학습 플랫폼</p>
         </div>
 
         <div class="main-menu">
             <div class="menu-card" onclick="location.href='collections.html'">
                 <div class="menu-icon study">
-                    <span>🐺</span>
+                    <span class="icon-text">ABC</span>
                 </div>
                 <h2 id="menuEnglish">영어 공부</h2>
                 <p id="menuEnglishDesc">다양한 시험 준비를 위한 어휘 학습</p>
@@ -30,7 +30,7 @@
 
             <div class="menu-card" onclick="location.href='korean-collections.html'">
                 <div class="menu-icon korean">
-                    <span>🐺</span>
+                    <span class="icon-text">ㄱㄴㄷ</span>
                 </div>
                 <h2 id="menuKorean">한국어 공부</h2>
                 <p id="menuKoreanDesc">TOPIK 시험 준비를 위한 어휘 학습</p>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="footer">
-            <p style="color: white; opacity: 0.8; margin-top: 40px;">🐺 Vocabulary Learning Platform</p>
+            <p style="color: white; opacity: 0.8; margin-top: 40px;">🐺 Voca for you</p>
         </div>
     </div>
 

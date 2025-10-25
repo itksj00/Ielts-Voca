@@ -9,8 +9,8 @@
 <body>
     <!-- 언어 선택 버튼 -->
     <div class="language-selector">
-        <button class="lang-btn active" onclick="setLanguage('ko')">한국어</button>
-        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn active" id="langKo" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="langEn" onclick="setLanguage('en')">English</button>
     </div>
 
     <div class="container">
@@ -23,7 +23,7 @@
         <div class="collection-selection">
             <div class="collection-card" onclick="location.href='ielts.html'">
                 <div class="collection-icon ielts">
-                    <span>🐺</span>
+                    <span class="icon-text">ABC</span>
                 </div>
                 <h2 id="ieltsTitle">IELTS Vocabulary</h2>
                 <p id="ieltsDesc">Band 5-7 수준의 필수 어휘</p>
@@ -35,7 +35,7 @@
 
             <div class="collection-card disabled">
                 <div class="collection-icon toeic">
-                    <span>🐺</span>
+                    <span class="icon-text">ABC</span>
                 </div>
                 <h2 id="toeicTitle">TOEIC Vocabulary</h2>
                 <p id="toeicDesc">비즈니스 영어 필수 어휘</p>
@@ -46,7 +46,7 @@
 
             <div class="collection-card disabled">
                 <div class="collection-icon toefl">
-                    <span>🐺</span>
+                    <span class="icon-text">ABC</span>
                 </div>
                 <h2 id="toeflTitle">TOEFL Vocabulary</h2>
                 <p id="toeflDesc">학술 영어 필수 어휘</p>
