@@ -62,7 +62,7 @@
     </div>
 
     <!-- 이슈 신고 모달 -->
-    <div id="issueModal" class="modal">
+    <div id="issueModal" class="modal" onclick="if(event.target === this) closeIssueReport()">
         <div class="modal-content issue-modal">
             <h2 id="issueTitle">이슈 신고 / 개선 아이디어</h2>
             <p id="issueDesc">아래 이메일로 내용을 전달해 주세요:</p>

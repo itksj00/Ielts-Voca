@@ -93,6 +93,7 @@ const translations = {
  * 언어 설정
  */
 function setLanguage(lang) {
+    console.log('언어 변경 시도:', lang); // 디버깅
     localStorage.setItem('selectedLanguage', lang);
     
     // 버튼 활성화 상태 변경
@@ -102,14 +103,21 @@ function setLanguage(lang) {
     
     if (lang === 'ko') {
         const koBtn = document.getElementById('langKo');
-        if (koBtn) koBtn.classList.add('active');
+        if (koBtn) {
+            koBtn.classList.add('active');
+            console.log('한국어 버튼 활성화'); // 디버깅
+        }
     } else {
         const enBtn = document.getElementById('langEn');
-        if (enBtn) enBtn.classList.add('active');
+        if (enBtn) {
+            enBtn.classList.add('active');
+            console.log('영어 버튼 활성화'); // 디버깅
+        }
     }
     
     // 페이지 텍스트 업데이트
     updatePageTexts(lang);
+    console.log('텍스트 업데이트 완료'); // 디버깅
 }
 
 /**
@@ -157,12 +165,22 @@ window.addEventListener('DOMContentLoaded', () => {
  * 이슈 신고 모달 표시
  */
 function showIssueReport() {
-    document.getElementById('issueModal').classList.add('show');
+    const modal = document.getElementById('issueModal');
+    if (modal) {
+        modal.classList.add('show');
+        console.log('모달 열림'); // 디버깅용
+    } else {
+        console.error('issueModal을 찾을 수 없습니다');
+    }
 }
 
 /**
  * 이슈 신고 모달 닫기
  */
 function closeIssueReport() {
-    document.getElementById('issueModal').classList.remove('show');
+    const modal = document.getElementById('issueModal');
+    if (modal) {
+        modal.classList.remove('show');
+        console.log('모달 닫힘'); // 디버깅용
+    }
 }

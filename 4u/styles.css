@@ -1267,12 +1267,35 @@ body {
 
 /* ========== 텍스트 아이콘 스타일 ========== */
 .icon-text {
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bold;
     color: white;
+    line-height: 1;
 }
 
 .menu-icon .icon-text,
 .collection-icon .icon-text {
     font-family: 'Arial Black', sans-serif;
+    display: block;
+}
+
+/* 메뉴 아이콘 크기 조정 */
+.menu-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collection-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
