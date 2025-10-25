@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Learning</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 언어 선택 버튼 -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 id="mainTitle">🐺 Vocabulary Learning</h1>
+            <p id="mainSubtitle">당신의 어휘 실력 향상을 위한 학습 플랫폼</p>
+        </div>
+
+        <div class="main-menu">
+            <div class="menu-card" onclick="location.href='collections.html'">
+                <div class="menu-icon study">
+                    <span>🐺</span>
+                </div>
+                <h2 id="menuEnglish">영어 공부</h2>
+                <p id="menuEnglishDesc">다양한 시험 준비를 위한 어휘 학습</p>
+            </div>
+
+            <div class="menu-card" onclick="location.href='korean-collections.html'">
+                <div class="menu-icon korean">
+                    <span>🐺</span>
+                </div>
+                <h2 id="menuKorean">한국어 공부</h2>
+                <p id="menuKoreanDesc">TOPIK 시험 준비를 위한 어휘 학습</p>
+            </div>
+
+            <div class="menu-card" onclick="location.href='stats.html'">
+                <div class="menu-icon stats">
+                    <span>📊</span>
+                </div>
+                <h2 id="menuStats">학습 통계</h2>
+                <p id="menuStatsDesc">나의 학습 현황과 성과 확인</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="color: white; opacity: 0.8; margin-top: 40px;">🐺 Vocabulary Learning Platform</p>
+        </div>
+    </div>
+
+    <!-- 이슈 신고 버튼 -->
+    <div class="issue-report-btn" onclick="showIssueReport()">
+        <span id="issueReportText">💡 이슈 신고 / 개선 아이디어</span>
+    </div>
+
+    <!-- 이슈 신고 모달 -->
+    <div id="issueModal" class="modal">
+        <div class="modal-content issue-modal">
+            <h2 id="issueTitle">이슈 신고 / 개선 아이디어</h2>
+            <p id="issueDesc">아래 이메일로 내용을 전달해 주세요:</p>
+            <div class="email-display">
+                <a href="mailto:voca4u@gmail.com">voca4u@gmail.com</a>
+            </div>
+            <button class="close-modal-btn" onclick="closeIssueReport()" id="issueCloseBtn">닫기</button>
+        </div>
+    </div>
+
+    <script src="js/language.js"></script>
+</body>
+</html>
