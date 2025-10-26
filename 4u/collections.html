@@ -9,8 +9,9 @@
 <body>
     <!-- 언어 선택 버튼 -->
     <div class="language-selector">
-        <button class="lang-btn active" id="langKo" onclick="setLanguage('ko')">한국어</button>
-        <button class="lang-btn" id="langEn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn-single" onclick="showLanguageModal()">
+            <span id="currentLang">🌐 Language</span>
+        </button>
     </div>
 
     <div class="container">
@@ -23,7 +24,7 @@
         <div class="collection-selection">
             <div class="collection-card" onclick="location.href='ielts.html'">
                 <div class="collection-icon ielts">
-                    <span class="icon-text">ABC</span>
+                    <img src="assets/english-icon.png" alt="ABC" class="icon-img">
                 </div>
                 <h2 id="ieltsTitle">IELTS Vocabulary</h2>
                 <p id="ieltsDesc">Band 5-7 수준의 필수 어휘</p>
@@ -35,7 +36,7 @@
 
             <div class="collection-card disabled">
                 <div class="collection-icon toeic">
-                    <span class="icon-text">ABC</span>
+                    <img src="assets/english-icon.png" alt="ABC" class="icon-img">
                 </div>
                 <h2 id="toeicTitle">TOEIC Vocabulary</h2>
                 <p id="toeicDesc">비즈니스 영어 필수 어휘</p>
@@ -46,7 +47,7 @@
 
             <div class="collection-card disabled">
                 <div class="collection-icon toefl">
-                    <span class="icon-text">ABC</span>
+                    <img src="assets/english-icon.png" alt="ABC" class="icon-img">
                 </div>
                 <h2 id="toeflTitle">TOEFL Vocabulary</h2>
                 <p id="toeflDesc">학술 영어 필수 어휘</p>
@@ -57,20 +58,18 @@
         </div>
     </div>
 
-    <!-- 이슈 신고 버튼 -->
-    <div class="issue-report-btn" onclick="showIssueReport()">
-        <span id="issueReportText">💡 이슈 신고 / 개선 아이디어</span>
-    </div>
-
-    <!-- 이슈 신고 모달 -->
-    <div id="issueModal" class="modal" onclick="if(event.target === this) closeIssueReport()">
-        <div class="modal-content issue-modal">
-            <h2 id="issueTitle">이슈 신고 / 개선 아이디어</h2>
-            <p id="issueDesc">아래 이메일로 내용을 전달해 주세요:</p>
-            <div class="email-display">
-                <a href="mailto:voca4u@gmail.com">voca4u@gmail.com</a>
+    <!-- 언어 선택 모달 -->
+    <div id="languageModal" class="modal">
+        <div class="modal-content language-modal">
+            <h2>언어 선택 / Select Language</h2>
+            <div class="language-options">
+                <button class="language-option-btn" onclick="selectLanguage('ko')">
+                    🇰🇷 한국어
+                </button>
+                <button class="language-option-btn" onclick="selectLanguage('en')">
+                    🇺🇸 English
+                </button>
             </div>
-            <button class="close-modal-btn" onclick="closeIssueReport()" id="issueCloseBtn">닫기</button>
         </div>
     </div>
 
