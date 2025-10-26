@@ -1,4 +1,4 @@
-// ========== 퀴즈 로직 (Shrimp 방식) ==========
+// ========== 퀴즈 로직 (통합 버전) ==========
 
 /**
  * 영어 단어 발음 재생
@@ -120,6 +120,9 @@ function nextMCQuestion() {
     displayMCQuestion();
 }
 
+/**
+ * Typing Practice 문제 표시
+ */
 function displayTPQuestion() {
     if (window.currentQuestionIndex >= window.currentQuestions.length) {
         showResultModal();
@@ -248,6 +251,9 @@ function nextTPQuestion() {
     displayTPQuestion();
 }
 
+/**
+ * 결과 모달 표시
+ */
 function showResultModal() {
     document.removeEventListener('keydown', handleMCEnter);
     const tpNextBtn = document.getElementById('tpNextBtn');
@@ -272,7 +278,8 @@ function showResultModal() {
     document.getElementById('resultScore').textContent = window.score + ' / ' + total;
     document.getElementById('resultMessage').textContent = '정답률: ' + percentage + '% ' + (passed ? '통과했습니다!' : '통과하지 못했습니다.');
 
-    const levelKey = window.currentDifficulty + '-' + window.currentLevel;
+    // 통합 구조: getLevelKey 사용
+    const levelKey = getLevelKey(window.currentExam, window.currentDifficulty, window.currentLevel);
     if (window.currentMode === 'mc') {
         window.progress.levels[levelKey].mcScore = window.score;
         window.progress.levels[levelKey].mcTotal = total;
@@ -298,16 +305,10 @@ function showResultModal() {
     }
 }
 
+/**
+ * 재시도
+ */
 function retryMode() {
     document.getElementById('resultModal').classList.remove('show');
-    startMode(window.currentDifficulty, window.currentLevel, window.currentMode);
-}
-
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
+    startMode(window.currentExam, window.currentDifficulty, window.currentLevel, window.currentMode);
 }

@@ -1,55 +1,68 @@
-// ========== UI 렌더링 ==========
+// ========== 통합 UI 렌더링 ==========
 
 /**
  * 레벨 선택 화면 렌더링
  */
 function renderLevelSelection() {
-    const difficulty = localStorage.getItem('currentDifficulty') || 'ielts5';
-    const difficultyNames = {
-        'ielts5': 'IELTS Band 5',
-        'ielts6': 'IELTS Band 6',
-        'ielts7': 'IELTS Band 7'
-    };
+    const exam = window.currentExam;
+    const difficulty = window.currentDifficulty;
     
-    document.getElementById('difficultyTitle').textContent = difficultyNames[difficulty];
+    const examConfig = getExamConfig(exam, difficulty);
+    if (!examConfig) {
+        console.error('Invalid exam or difficulty');
+        return;
+    }
+    
+    // 제목 업데이트
+    const titleElement = document.getElementById('difficultyTitle');
+    if (titleElement) {
+        titleElement.textContent = `${examConfig.name} ${examConfig.currentDifficulty.name}`;
+    }
     
     const levelGrid = document.getElementById('levelGrid');
+    if (!levelGrid) return;
+    
     levelGrid.innerHTML = '';
-
-    for (let i = 1; i <= 10; i++) {
-        const levelKey = `${difficulty}-${i}`;
+    
+    const totalLevels = examConfig.currentDifficulty.levels;
+    
+    for (let i = 1; i <= totalLevels; i++) {
+        const levelKey = getLevelKey(exam, difficulty, i);
         const levelInfo = window.progress.levels[levelKey];
-        const isUnlocked = i === 1 || window.progress.levels[`${difficulty}-${i-1}`].mcPassed;
+        
+        // 첫 레벨이거나 이전 레벨을 통과한 경우 잠금 해제
+        const prevLevelKey = getLevelKey(exam, difficulty, i - 1);
+        const isUnlocked = i === 1 || (window.progress.levels[prevLevelKey] && window.progress.levels[prevLevelKey].mcPassed);
         
         const card = document.createElement('div');
         card.className = 'level-card' + (isUnlocked ? '' : ' disabled');
 
         // 완료 배지
         let statusHTML = '';
-        if (levelInfo.mcPassed && levelInfo.tpPassed) {
+        if (levelInfo && levelInfo.mcPassed && levelInfo.tpPassed) {
             statusHTML = '<div class="status-badge">✓ 완료</div>';
         }
 
         // 점수 표시
         let scoreHTML = '';
-        if (levelInfo.mcTotal > 0 || levelInfo.tpTotal > 0) {
+        if (levelInfo && (levelInfo.mcTotal > 0 || levelInfo.tpTotal > 0)) {
             scoreHTML = '<div class="score-display">';
             if (levelInfo.mcTotal > 0) {
-                scoreHTML += '<span class="mc-score">MC: ' + levelInfo.mcScore + '/' + levelInfo.mcTotal + '</span>';
+                scoreHTML += `<span class="mc-score">MC: ${levelInfo.mcScore}/${levelInfo.mcTotal}</span>`;
             }
             if (levelInfo.tpTotal > 0) {
-                scoreHTML += '<span class="tp-score">TP: ' + levelInfo.tpScore + '/' + levelInfo.tpTotal + '</span>';
+                scoreHTML += `<span class="tp-score">TP: ${levelInfo.tpScore}/${levelInfo.tpTotal}</span>`;
             }
             scoreHTML += '</div>';
         }
 
         card.innerHTML = 
-            '<div class="level-title">Level ' + i + '</div>' +
+            `<div class="level-title">Level ${i}</div>` +
             statusHTML +
             scoreHTML +
             '<div class="mode-buttons">' +
-                '<button class="mode-btn mc" ' + (isUnlocked ? '' : 'disabled') + ' onclick="startMode(\'' + difficulty + '\', ' + i + ', \'mc\')">Multiple Choice</button>' +
-                '<button class="mode-btn tp" ' + (isUnlocked ? '' : 'disabled') + ' onclick="startMode(\'' + difficulty + '\', ' + i + ', \'tp\')">Typing Practice</button>' +
+                `<button class="mode-btn mc" ${isUnlocked ? '' : 'disabled'} onclick="startMode('${exam}', '${difficulty}', ${i}, 'mc')">Multiple Choice</button>` +
+                `<button class="mode-btn tp" ${isUnlocked ? '' : 'disabled'} onclick="startMode('${exam}', '${difficulty}', ${i}, 'tp')">Typing Practice</button>` +
             '</div>';
 
         levelGrid.appendChild(card);
@@ -59,12 +72,13 @@ function renderLevelSelection() {
 /**
  * 학습 모드 시작
  */
-function startMode(difficulty, level, mode) {
+function startMode(exam, difficulty, level, mode) {
+    window.currentExam = exam;
     window.currentDifficulty = difficulty;
     window.currentLevel = level;
     window.currentMode = mode;
     
-    const data = getLevelData(difficulty, level);
+    const data = getLevelData(exam, difficulty, level);
     if (!data) {
         alert('데이터를 불러올 수 없습니다.');
         return;
@@ -80,7 +94,7 @@ function startMode(difficulty, level, mode) {
     document.getElementById('learningMode').style.display = 'block';
 
     const modeTitle = mode === 'mc' ? 'Multiple Choice' : 'Typing Practice';
-    document.getElementById('modeTitle').textContent = 'Level ' + level + ' - ' + modeTitle;
+    document.getElementById('modeTitle').textContent = `Level ${level} - ${modeTitle}`;
 
     if (mode === 'mc') {
         document.getElementById('mcMode').style.display = 'block';
@@ -103,7 +117,7 @@ function updateProgress() {
     const current = window.currentQuestionIndex + 1;
     const percentage = (current / total) * 100;
     
-    document.getElementById('questionCounter').textContent = current + ' / ' + total;
+    document.getElementById('questionCounter').textContent = `${current} / ${total}`;
     document.getElementById('progressFill').style.width = percentage + '%';
 }
 
@@ -132,15 +146,28 @@ function shuffleArray(array) {
 }
 
 /**
- * 난이도와 레벨에 맞는 데이터 가져오기
+ * 레벨 데이터 가져오기
  */
-function getLevelData(difficulty, level) {
-    if (difficulty === 'ielts5') {
-        return window.IELTS5_DATA ? window.IELTS5_DATA[level] : null;
-    } else if (difficulty === 'ielts6') {
-        return window.IELTS6_DATA ? window.IELTS6_DATA[level] : null;
-    } else if (difficulty === 'ielts7') {
-        return window.IELTS7_DATA ? window.IELTS7_DATA[level] : null;
+function getLevelData(exam, difficulty, level) {
+    if (!window.VOCAB_DATA) {
+        console.error('VOCAB_DATA not loaded');
+        return null;
     }
-    return null;
+    
+    if (!window.VOCAB_DATA[exam]) {
+        console.error(`Exam not found: ${exam}`);
+        return null;
+    }
+    
+    if (!window.VOCAB_DATA[exam][difficulty]) {
+        console.error(`Difficulty not found: ${difficulty}`);
+        return null;
+    }
+    
+    if (!window.VOCAB_DATA[exam][difficulty].levels[level]) {
+        console.error(`Level not found: ${level}`);
+        return null;
+    }
+    
+    return window.VOCAB_DATA[exam][difficulty].levels[level];
 }

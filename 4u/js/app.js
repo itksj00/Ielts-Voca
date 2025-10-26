@@ -1,33 +1,54 @@
-// ========== 메인 앱 로직 ==========
+// ========== 통합 메인 앱 로직 ==========
 
-// ========== 전역 변수 ==========
-window.currentDifficulty = null;    // 현재 난이도 (ielts5, ielts6, ielts7)
-window.currentLevel = null;          // 현재 레벨 (1-10)
-window.currentMode = null;           // 현재 모드 ('mc' 또는 'tp')
-window.currentQuestions = [];        // 현재 문제 배열
-window.currentQuestionIndex = 0;     // 현재 문제 인덱스
-window.score = 0;                    // 현재 점수
-window.answered = false;             // 현재 문제 답변 완료 여부
-
-// ========== 앱 초기화 ==========
+// 전역 변수
+window.currentExam = null;
+window.currentDifficulty = null;
+window.currentLevel = null;
+window.currentMode = null;
+window.currentQuestions = [];
+window.currentQuestionIndex = 0;
+window.score = 0;
+window.answered = false;
 
 /**
  * 앱 초기화 함수
- * - 진행 상황 불러오기
- * - 통계 불러오기
- * - 레벨 선택 화면 렌더링
  */
 function initializeApp() {
     loadProgressFromStorage();
     loadStatsFromStorage();
     
-    // study.html 페이지인 경우에만 레벨 선택 렌더링
+    // study.html 페이지인 경우
     if (document.getElementById('levelSelection')) {
-        const difficulty = localStorage.getItem('currentDifficulty') || 'ielts5';
-        localStorage.setItem('currentDifficulty', difficulty);
-        renderLevelSelection();
+        // URL 파라미터에서 시험 정보 가져오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const exam = urlParams.get('exam');
+        const difficulty = urlParams.get('difficulty');
+        
+        if (exam && difficulty) {
+            window.currentExam = exam;
+            window.currentDifficulty = difficulty;
+            renderLevelSelection();
+        } else {
+            console.error('Missing exam or difficulty parameter');
+            alert('잘못된 접근입니다. 시험을 다시 선택해주세요.');
+            window.location.href = 'index.html';
+        }
     }
 }
 
-// ========== 페이지 로드 시 앱 시작 ==========
+/**
+ * 시험 선택 페이지로 이동
+ */
+function goToExamSelect(exam) {
+    window.location.href = `exam-select.html?exam=${exam}`;
+}
+
+/**
+ * 학습 페이지로 이동
+ */
+function goToStudy(exam, difficulty) {
+    window.location.href = `study.html?exam=${exam}&difficulty=${difficulty}`;
+}
+
+// 페이지 로드 시 앱 시작
 window.addEventListener('DOMContentLoaded', initializeApp);

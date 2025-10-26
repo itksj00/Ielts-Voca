@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>난이도 선택</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 언어 선택 버튼 -->
+    <div class="language-selector">
+        <button class="lang-btn-single" onclick="showLanguageModal()">
+            <span id="currentLang">🌐 Language</span>
+        </button>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">← 뒤로</button>
+            <h1 id="examTitle">시험 선택</h1>
+            <p id="examDesc">학습할 난이도를 선택하세요</p>
+        </div>
+
+        <div class="difficulty-selection" id="difficultyGrid">
+            <!-- JavaScript로 동적 생성 -->
+        </div>
+    </div>
+
+    <!-- 언어 선택 모달 -->
+    <div id="languageModal" class="modal">
+        <div class="modal-content language-modal">
+            <h2>언어 선택 / Select Language</h2>
+            <div class="language-options">
+                <button class="language-option-btn" onclick="selectLanguage('ko')">
+                    🇰🇷 한국어
+                </button>
+                <button class="language-option-btn" onclick="selectLanguage('en')">
+                    🇺🇸 English
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/storage-new.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        let currentExam = null;
+        
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProgressFromStorage();
+            
+            // URL에서 시험 유형 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            currentExam = urlParams.get('exam');
+            
+            if (!currentExam || !window.EXAM_CONFIG[currentExam]) {
+                alert('잘못된 시험 유형입니다.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            renderExamSelect();
+        });
+        
+        function renderExamSelect() {
+            const examConfig = window.EXAM_CONFIG[currentExam];
+            
+            // 제목 업데이트
+            document.getElementById('examTitle').textContent = examConfig.name + ' Vocabulary';
+            
+            const difficultyGrid = document.getElementById('difficultyGrid');
+            difficultyGrid.innerHTML = '';
+            
+            Object.keys(examConfig.difficulties).forEach(difficultyKey => {
+                const difficulty = examConfig.difficulties[difficultyKey];
+                
+                // 진행률 계산
+                const progress = getExamProgress(currentExam, difficultyKey);
+                
+                const card = document.createElement('div');
+                card.className = 'difficulty-card';
+                card.onclick = () => goToStudy(currentExam, difficultyKey);
+                
+                const badgeClass = currentExam === 'ielts' ? 
+                    `band${difficultyKey}` : 
+                    `topik${difficultyKey}`;
+                
+                card.innerHTML = `
+                    <div class="difficulty-badge ${badgeClass}">${difficulty.name}</div>
+                    <h2>${examConfig.name} ${difficulty.name}</h2>
+                    <p>${difficulty.description}</p>
+                    <div class="difficulty-info">
+                        <span>📚 ${difficulty.levels}개 레벨</span>
+                        <span>📖 ${difficulty.levels * difficulty.wordsPerLevel}개 단어</span>
+                    </div>
+                    <div class="progress-info">
+                        <div class="progress-bar-small">
+                            <div class="progress-fill-small" style="width: ${progress.percentage}%"></div>
+                        </div>
+                        <span class="progress-text">${progress.completed}/${progress.total} 완료</span>
+                    </div>
+                `;
+                
+                difficultyGrid.appendChild(card);
+            });
+        }
+        
+        function goToStudy(exam, difficulty) {
+            window.location.href = `study.html?exam=${exam}&difficulty=${difficulty}`;
+        }
+        
+        function goBack() {
+            if (currentExam === 'ielts') {
+                window.location.href = 'collections.html';
+            } else if (currentExam === 'topik') {
+                window.location.href = 'korean-collections.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

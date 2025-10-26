@@ -3,91 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study - IELTS Vocabulary</title>
+    <title>학습 통계</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- 레벨 선택 화면 -->
-        <div id="levelSelection">
-            <div class="header">
-                <button class="back-btn" onclick="location.href='ielts.html'">← 뒤로</button>
-                <h1 id="difficultyTitle">IELTS Band 5</h1>
-                <p>학습할 레벨을 선택하세요</p>
-            </div>
-
-            <div class="level-selection" id="levelGrid"></div>
+        <div class="header">
+            <button class="back-btn" onclick="location.href='index.html'">← 뒤로</button>
+            <h1>📊 학습 통계</h1>
+            <p>나의 학습 현황</p>
         </div>
 
-        <!-- 학습 모드 화면 -->
-        <div id="learningMode" class="learning-mode">
-            <div class="learning-container">
-                <div class="learning-header">
-                    <div>
-                        <div class="learning-title" id="modeTitle"></div>
-                        <div class="progress-info">
-                            <span id="questionCounter">1 / 35</span>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                            </div>
-                        </div>
+        <div class="stats-container">
+            <!-- 전체 통계 -->
+            <div class="stats-section">
+                <h2>📈 전체 통계</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalWords">0개</div>
+                        <div class="stat-label">학습한 단어</div>
                     </div>
-                    <button class="action-btn back" onclick="backToLevelSelection()">← 돌아가기</button>
-                </div>
-
-                <!-- Multiple Choice 영역 -->
-                <div id="mcMode">
-                    <div class="question-container">
-                        <div class="pos-label" id="mcPosLabel"></div>
-                        <div class="question-text" id="koreanWord"></div>
-                        <div class="example-sentence" id="mcExampleSentence"></div>
-                        <div class="choices" id="choices"></div>
-                        <div class="feedback" id="mcFeedback"></div>
-                        <div class="action-buttons">
-                            <button class="action-btn next" id="mcNextBtn" onclick="nextMCQuestion()" disabled>다음</button>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCorrect">0개</div>
+                        <div class="stat-label">정답 수</div>
                     </div>
-                </div>
-
-                <!-- Typing Practice 영역 -->
-                <div id="tpMode">
-                    <div class="question-container">
-                        <div class="pos-label" id="tpPosLabel"></div>
-                        <div class="question-text" id="tpKoreanWord"></div>
-                        <div class="example-sentence" id="tpExampleSentence"></div>
-                        <div class="typing-input-area">
-                            <div class="input-boxes" id="inputBoxes"></div>
-                        </div>
-                        <div class="feedback" id="tpFeedback"></div>
-                        <div class="action-buttons">
-                            <button class="action-btn submit" id="tpSubmitBtn" onclick="submitTypingPractice()">제출</button>
-                            <button class="action-btn next" id="tpNextBtn" onclick="nextTPQuestion()" style="display: none;">다음</button>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalAccuracy">0%</div>
+                        <div class="stat-label">정답률</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="completedLevels">0개</div>
+                        <div class="stat-label">완료한 레벨</div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 결과 모달 -->
-        <div id="resultModal" class="modal">
-            <div class="modal-content">
-                <h2 id="resultTitle">테스트 완료!</h2>
-                <div class="result-score" id="resultScore">0 / 35</div>
-                <div class="result-message" id="resultMessage"></div>
-                <div class="modal-buttons">
-                    <button class="retry-btn" onclick="retryMode()">다시 시도</button>
-                    <button class="back-btn-modal" onclick="backToLevelSelection()">나가기</button>
+            <!-- IELTS 진행률 -->
+            <div class="stats-section">
+                <h2>📘 IELTS 진행률</h2>
+                <div class="difficulty-progress" id="ieltsProgress"></div>
+            </div>
+
+            <!-- TOPIK 진행률 -->
+            <div class="stats-section">
+                <h2>📕 TOPIK 진행률</h2>
+                <div class="difficulty-progress" id="topikProgress"></div>
+            </div>
+
+            <!-- 자주 틀린 단어 -->
+            <div class="stats-section">
+                <h2>❌ 자주 틀린 단어 TOP 10</h2>
+                <div class="mistake-list" id="mistakeList">
+                    <div class="empty-state">아직 틀린 단어가 없습니다.</div>
+                </div>
+            </div>
+
+            <!-- 데이터 관리 -->
+            <div class="stats-section">
+                <h2>🔧 데이터 관리</h2>
+                <div class="data-management">
+                    <button class="reset-btn" onclick="resetAllData()">⚠️ 모든 데이터 초기화</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="data/ielts/L5data.js"></script>
-    <script src="data/ielts/L6data.js"></script>
-    <script src="data/ielts/L7data.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/storage.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/quiz.js"></script>
-    <script src="js/app.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            loadProgressFromStorage();
+            loadStatsFromStorage();
+            updateStatsDisplay();
+        });
+
+        function updateStatsDisplay() {
+            const totalAttempts = window.stats.totalAttempts || 0;
+            const totalCorrect = window.stats.totalCorrect || 0;
+            const accuracy = totalAttempts > 0 ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+            const learnedWordsCount = Object.keys(window.stats.learnedWords || {}).length;
+            
+            document.getElementById('totalWords').textContent = learnedWordsCount + '개';
+            document.getElementById('totalCorrect').textContent = totalCorrect + '개';
+            document.getElementById('totalAccuracy').textContent = accuracy + '%';
+
+            let completedLevels = 0;
+            Object.keys(window.progress.levels).forEach(levelKey => {
+                const level = window.progress.levels[levelKey];
+                if (level.mcPassed && level.tpPassed) {
+                    completedLevels++;
+                }
+            });
+            document.getElementById('completedLevels').textContent = completedLevels + '개';
+
+            renderExamProgress('ielts', 'ieltsProgress');
+            renderExamProgress('topik', 'topikProgress');
+
+            const mistakeList = document.getElementById('mistakeList');
+            const mistakes = Object.values(window.stats.mistakes || {})
+                .sort((a, b) => b.count - a.count)
+                .slice(0, 10);
+
+            if (mistakes.length === 0) {
+                mistakeList.innerHTML = '<div class="empty-state">아직 틀린 단어가 없습니다.</div>';
+            } else {
+                mistakeList.innerHTML = mistakes.map(mistake => `
+                    <div class="mistake-item">
+                        <div class="mistake-word">
+                            <span class="english">${mistake.english}</span>
+                            <span class="korean">${mistake.korean}</span>
+                        </div>
+                        <div class="mistake-count">${mistake.count}회</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderExamProgress(exam, containerId) {
+            const container = document.getElementById(containerId);
+            const examConfig = window.EXAM_CONFIG[exam];
+            
+            if (!examConfig) {
+                container.innerHTML = '<div class="empty-state">데이터를 불러올 수 없습니다.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            
+            const colors = {
+                ielts: { 5: '#4CAF50', 6: '#2196F3', 7: '#9C27B0' },
+                topik: { 12: '#FF9800', 34: '#FF5722', 56: '#E91E63', '6plus': '#9C27B0' }
+            };
+
+            Object.keys(examConfig.difficulties).forEach(difficulty => {
+                const diffConfig = examConfig.difficulties[difficulty];
+                const totalLevels = diffConfig.levels;
+                
+                let completed = 0;
+                for (let i = 1; i <= totalLevels; i++) {
+                    const levelKey = getLevelKey(exam, difficulty, i);
+                    if (window.progress.levels[levelKey]) {
+                        const level = window.progress.levels[levelKey];
+                        if (level.mcPassed && level.tpPassed) {
+                            completed++;
+                        }
+                    }
+                }
+                
+                const percentage = Math.round((completed / totalLevels) * 100);
+                const color = colors[exam][difficulty] || '#607D8B';
+                
+                const item = document.createElement('div');
+                item.className = 'difficulty-progress-item';
+                item.innerHTML = `
+                    <div class="difficulty-progress-header">
+                        <span class="difficulty-name">${examConfig.name} ${diffConfig.name}</span>
+                        <span class="difficulty-percentage">${percentage}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${percentage}%; background: ${color};"></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function resetAllData() {
+            if (confirm('정말로 모든 학습 데이터를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                localStorage.clear();
+                alert('모든 데이터가 초기화되었습니다.');
+                location.reload();
+            }
+        }
+    </script>
 </body>
 </html>

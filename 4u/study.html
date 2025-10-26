@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study - IELTS Vocabulary</title>
+    <title>Study</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 언어 선택 버튼 -->
+    <div class="language-selector">
+        <button class="lang-btn-single" onclick="showLanguageModal()">
+            <span id="currentLang">🌐 Language</span>
+        </button>
+    </div>
+
     <div class="container">
         <!-- 레벨 선택 화면 -->
         <div id="levelSelection">
             <div class="header">
-                <button class="back-btn" onclick="location.href='ielts.html'">← 뒤로</button>
-                <h1 id="difficultyTitle">IELTS Band 5</h1>
+                <button class="back-btn" onclick="goBackToExamSelect()">← 뒤로</button>
+                <h1 id="difficultyTitle">Loading...</h1>
                 <p>학습할 레벨을 선택하세요</p>
             </div>
 
@@ -82,12 +89,33 @@
         </div>
     </div>
 
-    <script src="data/ielts/L5data.js"></script>
-    <script src="data/ielts/L6data.js"></script>
-    <script src="data/ielts/L7data.js"></script>
-    <script src="js/storage.js"></script>
-    <script src="js/ui.js"></script>
+    <!-- 언어 선택 모달 -->
+    <div id="languageModal" class="modal">
+        <div class="modal-content language-modal">
+            <h2>언어 선택 / Select Language</h2>
+            <div class="language-options">
+                <button class="language-option-btn" onclick="selectLanguage('ko')">
+                    🇰🇷 한국어
+                </button>
+                <button class="language-option-btn" onclick="selectLanguage('en')">
+                    🇺🇸 English
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/vocab-data.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/storage-new.js"></script>
+    <script src="js/ui-new.js"></script>
     <script src="js/quiz.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app-new.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        function goBackToExamSelect() {
+            const exam = window.currentExam;
+            window.location.href = `exam-select.html?exam=${exam}`;
+        }
+    </script>
 </body>
 </html>
