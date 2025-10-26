@@ -9,9 +9,9 @@ function speakWord(text) {
     
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'en-US';
-    utterance.rate = 0.85; // 속도 (0.1 ~ 10)
-    utterance.pitch = 1; // 음높이 (0 ~ 2)
-    utterance.volume = 1; // 볼륨 (0 ~ 1)
+    utterance.rate = 0.85;
+    utterance.pitch = 1;
+    utterance.volume = 1;
     
     speechSynthesis.speak(utterance);
 }
@@ -25,7 +25,6 @@ function displayMCQuestion() {
         return;
     }
 
-    // MC Enter 핸들러 등록
     document.addEventListener('keydown', handleMCEnter);
 
     window.answered = false;
@@ -34,18 +33,15 @@ function displayMCQuestion() {
 
     const question = window.currentQuestions[window.currentQuestionIndex];
     
-    // 영어 단어 + 스피커 버튼
     const wordWithSpeaker = question.english + ' <button class="speaker-btn" onclick="speakWord(\'' + question.english + '\')">🔊</button>';
     
     document.getElementById('mcPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('koreanWord').innerHTML = wordWithSpeaker;  // innerHTML으로 변경
+    document.getElementById('koreanWord').innerHTML = wordWithSpeaker;
     document.getElementById('mcExampleSentence').textContent = question.example;
 
-    // 선택지 생성 (한글, 같은 품사 우선)
     const answers = [question.korean];
     const samePosList = window.currentQuestions.filter(q => q.id !== question.id && q.pos === question.pos);
     
-    // 같은 품사에서 먼저 선택
     while (answers.length < 4 && samePosList.length >= answers.length) {
         const randomWord = samePosList[Math.floor(Math.random() * samePosList.length)];
         if (!answers.includes(randomWord.korean)) {
@@ -53,7 +49,6 @@ function displayMCQuestion() {
         }
     }
     
-    // 부족하면 다른 품사에서 선택
     while (answers.length < 4) {
         const randomWord = window.currentQuestions[Math.floor(Math.random() * window.currentQuestions.length)];
         if (!answers.includes(randomWord.korean)) {
@@ -61,35 +56,27 @@ function displayMCQuestion() {
         }
     }
 
-    // 선택지 섞기
     const shuffledAnswers = shuffleArray(answers);
 
-    // 선택지 표시
     const choicesContainer = document.getElementById('choices');
     choicesContainer.innerHTML = '';
     shuffledAnswers.forEach((answer, idx) => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
         btn.textContent = answer;
-        btn.onclick = () => selectMCAnswer(answer, question.korean, idx);  // 한글이 정답
+        btn.onclick = () => selectMCAnswer(answer, question.korean, idx);
         choicesContainer.appendChild(btn);
     });
 
     updateProgress();
 }
 
-/**
- * MC Enter 키 핸들러
- */
 function handleMCEnter(e) {
     if (e.key === 'Enter' && !document.getElementById('mcNextBtn').disabled) {
         nextMCQuestion();
     }
 }
 
-/**
- * MC 답안 선택
- */
 function selectMCAnswer(selected, correct, idx) {
     if (window.answered) return;
 
@@ -127,25 +114,18 @@ function selectMCAnswer(selected, correct, idx) {
     document.getElementById('mcNextBtn').disabled = false;
 }
 
-/**
- * MC 다음 문제
- */
 function nextMCQuestion() {
     document.removeEventListener('keydown', handleMCEnter);
     window.currentQuestionIndex++;
     displayMCQuestion();
 }
 
-/**
- * Typing Practice 문제 표시
- */
 function displayTPQuestion() {
     if (window.currentQuestionIndex >= window.currentQuestions.length) {
         showResultModal();
         return;
     }
 
-    // MC Enter 핸들러 제거
     document.removeEventListener('keydown', handleMCEnter);
 
     window.answered = false;
@@ -162,10 +142,9 @@ function displayTPQuestion() {
     const question = window.currentQuestions[window.currentQuestionIndex];
     
     document.getElementById('tpPosLabel').textContent = '(' + question.pos + ')';
-    document.getElementById('tpKoreanWord').textContent = question.korean;  // 스피커 버튼 제거
+    document.getElementById('tpKoreanWord').textContent = question.korean;
     document.getElementById('tpExampleSentence').textContent = question.korExample;
 
-    // 입력 박스 생성
     const inputBoxes = document.getElementById('inputBoxes');
     inputBoxes.innerHTML = '';
     
@@ -177,7 +156,6 @@ function displayTPQuestion() {
         input.maxLength = 1;
         input.dataset.index = i;
         
-        // 입력 이벤트
         input.addEventListener('input', function(e) {
             const value = e.target.value.toLowerCase();
             if (value && i < answer.length - 1) {
@@ -185,7 +163,6 @@ function displayTPQuestion() {
             }
         });
         
-        // 백스페이스 및 Enter 처리
         input.addEventListener('keydown', function(e) {
             if (e.key === 'Backspace' && !e.target.value && i > 0) {
                 inputBoxes.children[i - 1].focus();
@@ -200,7 +177,6 @@ function displayTPQuestion() {
         inputBoxes.appendChild(input);
     }
     
-    // 첫 번째 입력 박스에 포커스
     if (inputBoxes.children.length > 0) {
         inputBoxes.children[0].focus();
     }
@@ -208,9 +184,6 @@ function displayTPQuestion() {
     updateProgress();
 }
 
-/**
- * TP Next 키 핸들러
- */
 function handleTPNextKey(e) {
     if (e.key !== 'Enter') return;
     e.preventDefault();
@@ -218,9 +191,6 @@ function handleTPNextKey(e) {
     nextTPQuestion();
 }
 
-/**
- * TP 답안 제출
- */
 function submitTypingPractice() {
     if (window.answered) return;
 
@@ -228,7 +198,6 @@ function submitTypingPractice() {
     const question = window.currentQuestions[window.currentQuestionIndex];
     const correctAnswer = question.english.toLowerCase();
 
-    // 사용자 입력 수집
     const inputs = document.querySelectorAll('.input-box');
     let userAnswer = '';
     inputs.forEach(input => {
@@ -243,7 +212,6 @@ function submitTypingPractice() {
 
     updateStats(isCorrect, question);
 
-    // 입력 박스 스타일 업데이트
     inputs.forEach((input, index) => {
         const correctChar = correctAnswer[index];
         const userChar = input.value.toLowerCase();
@@ -256,7 +224,6 @@ function submitTypingPractice() {
         input.disabled = true;
     });
 
-    // 피드백 표시
     const feedback = document.getElementById('tpFeedback');
     if (isCorrect) {
         feedback.textContent = '✓ 정답입니다!';
@@ -266,7 +233,6 @@ function submitTypingPractice() {
         feedback.classList.add('show', 'incorrect');
     }
 
-    // 버튼 전환
     document.getElementById('tpSubmitBtn').style.display = 'none';
     const tpNextBtn = document.getElementById('tpNextBtn');
     tpNextBtn.style.display = 'inline-block';
@@ -274,9 +240,6 @@ function submitTypingPractice() {
     tpNextBtn.focus();
 }
 
-/**
- * TP 다음 문제
- */
 function nextTPQuestion() {
     const tpNextBtn = document.getElementById('tpNextBtn');
     tpNextBtn.removeEventListener('keydown', handleTPNextKey);
@@ -285,11 +248,7 @@ function nextTPQuestion() {
     displayTPQuestion();
 }
 
-/**
- * 결과 모달 표시
- */
 function showResultModal() {
-    // Enter 핸들러 제거
     document.removeEventListener('keydown', handleMCEnter);
     const tpNextBtn = document.getElementById('tpNextBtn');
     if (tpNextBtn) {
@@ -313,7 +272,6 @@ function showResultModal() {
     document.getElementById('resultScore').textContent = window.score + ' / ' + total;
     document.getElementById('resultMessage').textContent = '정답률: ' + percentage + '% ' + (passed ? '통과했습니다!' : '통과하지 못했습니다.');
 
-    // 진행 상황 저장
     const levelKey = window.currentDifficulty + '-' + window.currentLevel;
     if (window.currentMode === 'mc') {
         window.progress.levels[levelKey].mcScore = window.score;
@@ -332,7 +290,6 @@ function showResultModal() {
 
     document.getElementById('resultModal').classList.add('show');
 
-    // 레벨 완료 축하
     const levelData = window.progress.levels[levelKey];
     if (levelData.mcPassed && levelData.tpPassed && passed) {
         setTimeout(() => {
@@ -341,17 +298,11 @@ function showResultModal() {
     }
 }
 
-/**
- * 재시도
- */
 function retryMode() {
     document.getElementById('resultModal').classList.remove('show');
     startMode(window.currentDifficulty, window.currentLevel, window.currentMode);
 }
 
-/**
- * 배열 섞기
- */
 function shuffleArray(array) {
     const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
