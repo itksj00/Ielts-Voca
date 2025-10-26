@@ -114,7 +114,16 @@
     <script>
         function goBackToExamSelect() {
             const exam = window.currentExam;
-            window.location.href = `exam-select.html?exam=${exam}`;
+            if (exam === 'topik') {
+                // TOPIK은 korean-collections.html로 바로 이동
+                window.location.href = 'korean-collections.html';
+            } else if (exam === 'ielts') {
+                // IELTS는 exam-select로 이동
+                window.location.href = `exam-select.html?exam=${exam}`;
+            } else {
+                // 기타 시험은 collections로
+                window.location.href = 'collections.html';
+            }
         }
     </script>
 </body>

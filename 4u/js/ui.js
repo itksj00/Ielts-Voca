@@ -149,6 +149,8 @@ function shuffleArray(array) {
  * 레벨 데이터 가져오기
  */
 function getLevelData(exam, difficulty, level) {
+    console.log('getLevelData called:', { exam, difficulty, level });
+    
     if (!window.VOCAB_DATA) {
         console.error('VOCAB_DATA not loaded');
         return null;
@@ -156,18 +158,35 @@ function getLevelData(exam, difficulty, level) {
     
     if (!window.VOCAB_DATA[exam]) {
         console.error(`Exam not found: ${exam}`);
+        console.log('Available exams:', Object.keys(window.VOCAB_DATA));
         return null;
     }
     
+    // difficulty를 숫자로 변환 시도 (12, 34, 56 등)
+    let diffKey = difficulty;
     if (!window.VOCAB_DATA[exam][difficulty]) {
-        console.error(`Difficulty not found: ${difficulty}`);
+        // 문자열을 숫자로 시도
+        const numDiff = parseInt(difficulty);
+        if (!isNaN(numDiff) && window.VOCAB_DATA[exam][numDiff]) {
+            diffKey = numDiff;
+        } else {
+            console.error(`Difficulty not found: ${difficulty}`);
+            console.log('Available difficulties:', Object.keys(window.VOCAB_DATA[exam]));
+            return null;
+        }
+    }
+    
+    if (!window.VOCAB_DATA[exam][diffKey].levels) {
+        console.error(`Levels not found for ${exam}-${diffKey}`);
         return null;
     }
     
-    if (!window.VOCAB_DATA[exam][difficulty].levels[level]) {
+    if (!window.VOCAB_DATA[exam][diffKey].levels[level]) {
         console.error(`Level not found: ${level}`);
+        console.log('Available levels:', Object.keys(window.VOCAB_DATA[exam][diffKey].levels));
         return null;
     }
     
-    return window.VOCAB_DATA[exam][difficulty].levels[level];
+    console.log('Data found successfully');
+    return window.VOCAB_DATA[exam][diffKey].levels[level];
 }
