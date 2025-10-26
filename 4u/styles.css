@@ -39,18 +39,23 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 1em;
+    font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .back-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #f5f5f5;
+    border-color: #999;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ========== Language Selector 숨김 ========== */
@@ -567,15 +572,20 @@ body {
     height: 55px;
     font-size: 1.5em;
     text-align: center;
+    background: white;
+    color: #333;
     border: 2px solid #ddd;
     border-radius: 8px;
     transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .input-box:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    background: white;
 }
 
 .input-box.correct {
@@ -1037,6 +1047,33 @@ body {
 }
 
 /* ========== 학습 모드 (Shrimp 방식) ========== */
+.learning-mode {
+    display: none;
+}
+
+.learning-mode.active {
+    display: block;
+}
+
+.learning-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.learning-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
 .action-btn {
     padding: 12px 30px;
     border: none;
@@ -1048,12 +1085,16 @@ body {
 }
 
 .action-btn.back {
-    background: #f5f5f5;
-    color: white;
+    background: white;
+    color: #333;
+    border: 2px solid #ddd;
+    font-weight: 600;
 }
 
 .action-btn.back:hover {
-    background: #e0e0e0;
+    background: #f5f5f5;
+    border-color: #999;
+    transform: translateY(-2px);
 }
 
 .action-btn.submit {
@@ -1083,45 +1124,64 @@ body {
 
 .question-container {
     margin-top: 30px;
+    text-align: center;
 }
 
 .pos-label {
-    font-size: 1em;
-    color: #888;
-    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: #555;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .question-text {
-    font-size: 2.5em;
+    font-size: 2.8em;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
+    color: #222;
+    margin-bottom: 20px;
     text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .example-sentence {
     font-size: 1.1em;
-    color: white;
+    color: #f5f5f5;
     font-style: italic;
     margin-bottom: 30px;
     text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px 25px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
 }
 
 /* ========== MC 선택지 (Shrimp 방식) ========== */
 .choice-btn {
     padding: 20px;
-    background: #f5f5f5;
-    border: 3px solid transparent;
+    background: white;
+    border: 3px solid #ddd;
     border-radius: 12px;
     font-size: 1.1em;
+    color: #333;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .choice-btn:hover:not(:disabled) {
-    background: #e8e8e8;
+    background: #f5f5f5;
+    border-color: #999;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .choice-btn.selected.correct {
@@ -1149,17 +1209,18 @@ body {
 .back-btn-modal {
     padding: 15px 40px;
     font-size: 1.1em;
-    border: none;
+    border: 2px solid #ddd;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    background: #f5f5f5;
-    color: white;
+    background: white;
+    color: #333;
 }
 
 .back-btn-modal:hover {
-    background: #e0e0e0;
+    background: #f5f5f5;
+    border-color: #999;
     transform: translateY(-2px);
 }
 
