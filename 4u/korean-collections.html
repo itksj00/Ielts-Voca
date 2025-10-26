@@ -7,27 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- 언어 선택 버튼 -->
-    <div class="language-selector">
-        <button class="lang-btn-single" onclick="showLanguageModal()">
-            <span id="currentLang">🌐 Language</span>
-        </button>
-    </div>
-
     <div class="container">
         <div class="header">
-            <button class="back-btn" onclick="location.href='index.html'">← <span id="backText">뒤로</span></button>
-            <h1 id="koreanStudyTitle">한국어 공부</h1>
-            <p id="koreanStudyDesc">학습할 TOPIK 레벨을 선택하세요</p>
+            <button class="back-btn" onclick="location.href='index.html'">← 뒤로</button>
+            <h1>한국어 공부</h1>
+            <p>학습할 TOPIK 레벨을 선택하세요</p>
         </div>
 
         <div class="collection-selection">
-            <div class="collection-card" onclick="location.href='exam-select.html?exam=topik'">
+            <div class="collection-card" onclick="location.href='study.html?exam=topik&difficulty=12'">
                 <div class="collection-icon topik12">
-                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ" class="icon-img">
+                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ">
                 </div>
-                <h2 id="topik12Title">TOPIK 1~2급 대비</h2>
-                <p id="topik12Desc">초급 한국어 필수 어휘</p>
+                <h2>TOPIK 1~2급 대비</h2>
+                <p>초급 한국어 필수 어휘</p>
                 <div class="collection-stats">
                     <span>📖 350개 단어</span>
                     <span>📊 10개 레벨</span>
@@ -36,51 +29,36 @@
 
             <div class="collection-card disabled">
                 <div class="collection-icon topik34">
-                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ" class="icon-img">
+                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ">
                 </div>
-                <h2 id="topik34Title">TOPIK 3~4급 대비</h2>
-                <p id="topik34Desc">중급 한국어 필수 어휘</p>
+                <h2>TOPIK 3~4급 대비</h2>
+                <p>중급 한국어 필수 어휘</p>
                 <div class="collection-stats">
-                    <span id="comingSoon2">🔒 Coming Soon</span>
+                    <span>🔒 준비중</span>
                 </div>
             </div>
 
             <div class="collection-card disabled">
                 <div class="collection-icon topik56">
-                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ" class="icon-img">
+                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ">
                 </div>
-                <h2 id="topik56Title">TOPIK 5~6급 대비</h2>
-                <p id="topik56Desc">고급 한국어 필수 어휘</p>
+                <h2>TOPIK 5~6급 대비</h2>
+                <p>고급 한국어 필수 어휘</p>
                 <div class="collection-stats">
-                    <span id="comingSoon3">🔒 Coming Soon</span>
+                    <span>🔒 준비중</span>
                 </div>
             </div>
 
-            <div class="collection-card" onclick="location.href='exam-select.html?exam=topik'">
+            <div class="collection-card" onclick="location.href='study.html?exam=topik&difficulty=6plus'">
                 <div class="collection-icon topik6plus">
-                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ" class="icon-img">
+                    <img src="assets/korean-icon.png" alt="ㄱㄴㄷ">
                 </div>
-                <h2 id="topik6plusTitle">TOPIK 6급+ 대비</h2>
-                <p id="topik6plusDesc">최상급 한국어 어휘 및 관용구</p>
+                <h2>TOPIK 6급+ 대비</h2>
+                <p>최상급 한국어 어휘 및 관용구</p>
                 <div class="collection-stats">
                     <span>📖 750개 단어</span>
                     <span>📊 20개 레벨</span>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 언어 선택 모달 -->
-    <div id="languageModal" class="modal">
-        <div class="modal-content language-modal">
-            <h2>언어 선택 / Select Language</h2>
-            <div class="language-options">
-                <button class="language-option-btn" onclick="selectLanguage('ko')">
-                    🇰🇷 한국어
-                </button>
-                <button class="language-option-btn" onclick="selectLanguage('en')">
-                    🇺🇸 English
-                </button>
             </div>
         </div>
     </div>

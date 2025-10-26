@@ -1346,3 +1346,92 @@ body {
 .difficulty-card h2:has(+ p:contains("6급+")) {
     color: #9C27B0;
 }
+/* ========== 4가지 긴급 수정 ========== */
+
+/* 1. 돌아가기 버튼 색상 */
+.back-btn {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #667eea !important;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: white !important;
+    color: #5568d3 !important;
+}
+
+/* 2. 레벨 카드 버튼 정렬 */
+.level-card {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 20px !important;
+}
+
+.mode-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+.mode-btn {
+    width: 100% !important;
+    padding: 10px 15px !important;
+    font-size: 0.85em !important;
+}
+
+/* 4. 한국어 아이콘 보라색 통일 */
+.menu-icon.korean,
+.collection-icon.topik12,
+.collection-icon.topik34,
+.collection-icon.topik56,
+.collection-icon.topik6plus {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* ========== 긴급 수정 ========== */
+
+/* 1. 돌아가기 버튼 색상 개선 */
+.back-btn {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #667eea !important;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    background: white !important;
+    color: #5568d3 !important;
+}
+
+/* 2. 레벨 카드 버튼 정렬 수정 */
+.level-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.mode-btn {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 4. ㄱㄴㄷ 아이콘 배경 보라색 통일 */
+.collection-icon.topik12,
+.collection-icon.topik34,
+.collection-icon.topik56,
+.collection-icon.topik6plus {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.menu-icon.korean {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
