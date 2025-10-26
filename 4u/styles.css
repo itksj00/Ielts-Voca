@@ -65,7 +65,8 @@ body {
 }
 
 .menu-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 50px 40px;
     text-align: center;
@@ -94,6 +95,10 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
+
+.menu-icon.korean {
+    background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+}
 .menu-icon.stats {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
@@ -105,7 +110,7 @@ body {
 }
 
 .menu-card p {
-    color: #666;
+    color: white;
     font-size: 1.1em;
 }
 
@@ -117,7 +122,8 @@ body {
 }
 
 .collection-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
     text-align: center;
@@ -168,7 +174,7 @@ body {
 }
 
 .collection-card p {
-    color: #666;
+    color: white;
     margin-bottom: 20px;
 }
 
@@ -188,7 +194,8 @@ body {
 }
 
 .difficulty-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -229,7 +236,7 @@ body {
 }
 
 .difficulty-card p {
-    color: #666;
+    color: white;
     margin-bottom: 20px;
 }
 
@@ -274,7 +281,8 @@ body {
 }
 
 .level-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 15px;
     padding: 25px;
     text-align: center;
@@ -322,7 +330,7 @@ body {
     padding: 4px 10px;
     border-radius: 8px;
     background: #f5f5f5;
-    color: #666;
+    color: white;
 }
 
 .mode-buttons {
@@ -336,7 +344,8 @@ body {
     padding: 12px;
     border: 2px solid #e0e0e0;
     border-radius: 10px;
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     color: #333;
     font-weight: bold;
     cursor: pointer;
@@ -374,7 +383,8 @@ body {
 }
 
 .learning-container {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -413,7 +423,7 @@ body {
 
 #questionCounter {
     font-size: 1.1em;
-    color: #666;
+    color: white;
     margin-bottom: 10px;
     display: block;
 }
@@ -462,7 +472,7 @@ body {
 
 .example-sentence {
     font-size: 1.1em;
-    color: #666;
+    color: white;
     font-style: italic;
     margin-top: 15px;
 }
@@ -647,7 +657,8 @@ body {
 }
 
 .modal-content {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
     max-width: 500px;
@@ -661,7 +672,7 @@ body {
 }
 
 .mode-select-subtitle {
-    color: #666;
+    color: white;
     margin-bottom: 30px;
     font-size: 1.1em;
 }
@@ -674,7 +685,8 @@ body {
 }
 
 .mode-btn {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border: 3px solid #e0e0e0;
     border-radius: 15px;
     padding: 30px 20px;
@@ -725,7 +737,7 @@ body {
 
 .cancel-btn {
     background: #f5f5f5;
-    color: #666;
+    color: white;
     border: none;
     padding: 12px 30px;
     border-radius: 10px;
@@ -764,7 +776,7 @@ body {
 
 .result-message {
     font-size: 1.2em;
-    color: #666;
+    color: white;
     margin-bottom: 30px;
 }
 
@@ -781,7 +793,8 @@ body {
 }
 
 .stats-btn {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     color: #667eea;
     border: none;
     padding: 15px 40px;
@@ -800,7 +813,8 @@ body {
 
 /* ========== 통계 페이지 ========== */
 .stats-container {
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 40px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -909,7 +923,7 @@ body {
 
 .mistake-word .korean {
     font-size: 1em;
-    color: #666;
+    color: white;
 }
 
 .mistake-count {
@@ -1013,7 +1027,7 @@ body {
 
 .action-btn.back {
     background: #f5f5f5;
-    color: #666;
+    color: white;
 }
 
 .action-btn.back:hover {
@@ -1065,7 +1079,7 @@ body {
 
 .example-sentence {
     font-size: 1.1em;
-    color: #666;
+    color: white;
     font-style: italic;
     margin-bottom: 30px;
     text-align: center;
@@ -1119,7 +1133,7 @@ body {
     transition: all 0.3s ease;
     font-weight: bold;
     background: #f5f5f5;
-    color: #666;
+    color: white;
 }
 
 .back-btn-modal:hover {
@@ -1160,7 +1174,8 @@ body {
     z-index: 1000;
     display: flex;
     gap: 5px;
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -1171,7 +1186,7 @@ body {
     border: none;
     border-radius: 15px;
     background: transparent;
-    color: #666;
+    color: white;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -1192,7 +1207,8 @@ body {
     bottom: 20px;
     right: 20px;
     z-index: 1000;
-    background: white;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     padding: 12px 20px;
     border-radius: 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
