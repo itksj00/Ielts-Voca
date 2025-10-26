@@ -1324,3 +1324,19 @@ body {
 .difficulty-card h2:has(+ p:contains("6급+")) {
     color: #9C27B0;
 }
+/* === 긴급 수정 === */
+.menu-icon img,
+.collection-icon img {
+    width: 70px !important;
+    height: 70px !important;
+    object-fit: contain;
+}
+
+.language-selector {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(10px);
+}
+
+.lang-btn-single {
+    color: white !important;
+}
