@@ -205,7 +205,24 @@ function displayTPQuestion() {
         input.maxLength = 1;
         input.dataset.index = i;
         
+        let isComposing = false;
+        
+        input.addEventListener('compositionstart', function() {
+            isComposing = true;
+        });
+        
+        input.addEventListener('compositionend', function(e) {
+            isComposing = false;
+            const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
+            e.target.value = value;
+            if (value && i < answer.length - 1) {
+                inputBoxes.children[i + 1].focus();
+            }
+        });
+        
         input.addEventListener('input', function(e) {
+            if (isComposing) return;
+            
             const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
             e.target.value = value;
             if (value && i < answer.length - 1) {
