@@ -324,6 +324,14 @@ body {
     margin: 0 auto;
 }
 
+#learningMode {
+    display: none;
+}
+
+#learningMode.active {
+    display: block;
+}
+
 #levelSelection .progress-info,
 #levelSelection .learning-header {
     display: none !important;
@@ -640,16 +648,16 @@ body {
 }
 
 .input-box.correct {
-    background: #C8E6C9;
-    border-color: #4CAF50;
-    color: #1B5E20;
+    background: #66BB6A;
+    border-color: #43A047;
+    color: white;
     font-weight: bold;
 }
 
 .input-box.incorrect {
-    background: #FFCDD2;
-    border-color: #F44336;
-    color: #B71C1C;
+    background: #EF5350;
+    border-color: #E53935;
+    color: white;
     animation: shake 0.5s ease;
 }
 
@@ -665,14 +673,14 @@ body {
 }
 
 .feedback.correct {
-    background: #C8E6C9;
-    color: #1B5E20;
+    background: #66BB6A;
+    color: white;
     display: block;
 }
 
 .feedback.incorrect {
-    background: #FFCDD2;
-    color: #B71C1C;
+    background: #EF5350;
+    color: white;
     display: block;
 }
 
@@ -865,13 +873,13 @@ body {
 .modal-content h2 {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #333;
+    color: white;
 }
 
 .result-score {
     font-size: 3em;
     font-weight: bold;
-    color: #667eea;
+    color: #FFD700;
     margin: 20px 0;
 }
 
@@ -1208,16 +1216,16 @@ body {
 }
 
 .choice-btn.selected.correct {
-    background: #C8E6C9;
-    border-color: #4CAF50;
-    color: #1B5E20;
+    background: #66BB6A;
+    border-color: #43A047;
+    color: white;
     font-weight: bold;
 }
 
 .choice-btn.selected.incorrect {
-    background: #FFCDD2;
-    border-color: #F44336;
-    color: #B71C1C;
+    background: #EF5350;
+    border-color: #E53935;
+    color: white;
 }
 
 .choice-btn:disabled {
