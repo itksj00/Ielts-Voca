@@ -1078,9 +1078,10 @@ body {
 }
 
 .pos-label {
-    font-size: 1em;
+    font-size: 0.9em;
     color: #888;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .question-text {
@@ -1349,14 +1350,14 @@ body {
 
 /* 1. 돌아가기 버튼 색상 */
 .back-btn {
-    background: rgba(255, 255, 255, 0.95) !important;
-    color: #667eea !important;
+    background: white !important;
+    color: black !important;
     font-weight: 600;
 }
 
 .back-btn:hover {
-    background: white !important;
-    color: #5568d3 !important;
+    background: #f5f5f5 !important;
+    color: black !important;
 }
 
 /* 2. 레벨 카드 버튼 정렬 */
@@ -1392,14 +1393,14 @@ body {
 
 /* 1. 돌아가기 버튼 색상 개선 */
 .back-btn {
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: #667eea !important;
+    background: white !important;
+    color: black !important;
     font-weight: 600;
 }
 
 .back-btn:hover {
-    background: white !important;
-    color: #5568d3 !important;
+    background: #f5f5f5 !important;
+    color: black !important;
 }
 
 /* 2. 레벨 카드 버튼 정렬 수정 */
