@@ -205,6 +205,7 @@ function displayTPQuestion() {
         input.maxLength = 1;
         input.dataset.index = i;
         
+        // 한글 조합 중 여부 추적
         let isComposing = false;
         
         input.addEventListener('compositionstart', function() {
@@ -213,26 +214,38 @@ function displayTPQuestion() {
         
         input.addEventListener('compositionend', function(e) {
             isComposing = false;
+            const currentIndex = parseInt(e.target.dataset.index);
             const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
             e.target.value = value;
-            if (value && i < answer.length - 1) {
-                inputBoxes.children[i + 1].focus();
+            
+            // 한글 조합 완료 후 다음 칸으로
+            if (value && currentIndex < answer.length - 1) {
+                const nextInput = inputBoxes.children[currentIndex + 1];
+                if (nextInput) nextInput.focus();
             }
         });
         
         input.addEventListener('input', function(e) {
+            // 한글 조합 중에는 무시
             if (isComposing) return;
             
+            const currentIndex = parseInt(e.target.dataset.index);
             const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
             e.target.value = value;
-            if (value && i < answer.length - 1) {
-                inputBoxes.children[i + 1].focus();
+            
+            // 영어는 즉시 다음 칸으로
+            if (value && currentIndex < answer.length - 1) {
+                const nextInput = inputBoxes.children[currentIndex + 1];
+                if (nextInput) nextInput.focus();
             }
         });
         
         input.addEventListener('keydown', function(e) {
-            if (e.key === 'Backspace' && !e.target.value && i > 0) {
-                inputBoxes.children[i - 1].focus();
+            const currentIndex = parseInt(e.target.dataset.index);
+            
+            if (e.key === 'Backspace' && !e.target.value && currentIndex > 0) {
+                const prevInput = inputBoxes.children[currentIndex - 1];
+                if (prevInput) prevInput.focus();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 if (!window.answered && document.getElementById('tpSubmitBtn').style.display !== 'none') {
