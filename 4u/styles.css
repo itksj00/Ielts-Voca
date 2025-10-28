@@ -648,16 +648,16 @@ body {
 }
 
 .input-box.correct {
-    background: #66BB6A;
-    border-color: #43A047;
-    color: white;
+    background: #A5D6A7;
+    border-color: #66BB6A;
+    color: #1B5E20;
     font-weight: bold;
 }
 
 .input-box.incorrect {
-    background: #EF5350;
-    border-color: #E53935;
-    color: white;
+    background: #EF9A9A;
+    border-color: #EF5350;
+    color: #C62828;
     animation: shake 0.5s ease;
 }
 
@@ -673,14 +673,14 @@ body {
 }
 
 .feedback.correct {
-    background: #66BB6A;
-    color: white;
+    background: #A5D6A7;
+    color: #1B5E20;
     display: block;
 }
 
 .feedback.incorrect {
-    background: #EF5350;
-    color: white;
+    background: #EF9A9A;
+    color: #C62828;
     display: block;
 }
 
@@ -1216,16 +1216,16 @@ body {
 }
 
 .choice-btn.selected.correct {
-    background: #66BB6A;
-    border-color: #43A047;
-    color: white;
+    background: #A5D6A7;
+    border-color: #66BB6A;
+    color: #1B5E20;
     font-weight: bold;
 }
 
 .choice-btn.selected.incorrect {
-    background: #EF5350;
-    border-color: #E53935;
-    color: white;
+    background: #EF9A9A;
+    border-color: #EF5350;
+    color: #C62828;
 }
 
 .choice-btn:disabled {
