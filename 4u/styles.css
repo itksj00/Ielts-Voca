@@ -39,9 +39,9 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    background: white;
-    color: black;
-    border: 2px solid #999;
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -51,8 +51,8 @@ body {
 }
 
 .back-btn:hover {
-    background: #f5f5f5;
-    border-color: #333;
+    background: white;
+    border-color: white;
 }
 
 /* ========== Language Selector 숨김 ========== */
@@ -346,14 +346,14 @@ body {
 .level-title {
     font-size: 1.3em;
     font-weight: bold;
-    color: #333;
+    color: #667eea;
     margin-bottom: 15px;
 }
 
 .status-badge {
     display: inline-block;
-    background: #e8e8e8;
-    color: #333;
+    background: #e8f5e9;
+    color: #2e7d32;
     padding: 5px 15px;
     border-radius: 12px;
     font-size: 0.85em;
@@ -569,31 +569,30 @@ body {
     height: 55px;
     font-size: 1.5em;
     text-align: center;
-    border: 2px solid #999;
+    border: 2px solid #ddd;
     border-radius: 8px;
     transition: all 0.3s ease;
     background: white;
-    color: black;
+    color: #333;
 }
 
 .input-box:focus {
     outline: none;
-    border-color: #333;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
 .input-box.correct {
-    background: #e8e8e8;
-    border-color: #333;
-    color: black;
+    background: #e8f5e9;
+    border-color: #4CAF50;
+    color: #2e7d32;
     font-weight: bold;
 }
 
 .input-box.incorrect {
-    background: white;
-    border-color: #333;
-    color: #999;
-    text-decoration: line-through;
+    background: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
     animation: shake 0.5s ease;
 }
 
@@ -635,19 +634,42 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    background: #333;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
 
-.submit-btn:hover, .next-btn:hover, .retry-btn:hover {
-    background: #000;
+.submit-btn:hover {
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 .submit-btn:disabled {
     background: #ccc;
     color: #666;
     cursor: not-allowed;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.retry-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.retry-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
 /* ========== 모달 ========== */
@@ -698,8 +720,8 @@ body {
 }
 
 .mode-btn {
-    background: white;
-    border: 2px solid #999;
+    background: rgba(255, 255, 255, 0.95);
+    border: 3px solid #e0e0e0;
     border-radius: 15px;
     padding: 30px 20px;
     cursor: pointer;
@@ -709,17 +731,17 @@ body {
 
 .mode-btn:hover {
     transform: translateY(-5px);
-    background: #f5f5f5;
-    border-color: #333;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
 }
 
 .mode-btn.mc-btn:hover {
-    border-color: #333;
+    border-color: #667eea;
 }
 
 .mode-btn.tp-btn:hover {
-    border-color: #333;
+    border-color: #667eea;
 }
 
 .mode-icon {
@@ -1104,33 +1126,32 @@ body {
 .choice-btn {
     padding: 20px;
     background: white;
-    border: 2px solid #999;
+    border: 3px solid #e0e0e0;
     border-radius: 12px;
     font-size: 1.1em;
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
-    color: black;
+    color: #333;
 }
 
 .choice-btn:hover:not(:disabled) {
-    background: #f5f5f5;
+    background: #f9f9f9;
     transform: translateY(-2px);
-    border-color: #333;
+    border-color: #667eea;
 }
 
 .choice-btn.selected.correct {
-    background: #e8e8e8;
-    border-color: #333;
-    color: black;
+    background: #e8f5e9;
+    border-color: #4CAF50;
+    color: #2e7d32;
     font-weight: bold;
 }
 
 .choice-btn.selected.incorrect {
-    background: white;
-    border-color: #333;
-    color: #999;
-    text-decoration: line-through;
+    background: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
 }
 
 .choice-btn:disabled {
@@ -1148,18 +1169,18 @@ body {
 .back-btn-modal {
     padding: 15px 40px;
     font-size: 1.1em;
-    border: 2px solid #999;
+    border: 2px solid #e0e0e0;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
     background: white;
-    color: black;
+    color: #667eea;
 }
 
 .back-btn-modal:hover {
     background: #f5f5f5;
-    border-color: #333;
+    border-color: #667eea;
     transform: translateY(-2px);
 }
 

@@ -243,6 +243,12 @@ function displayTPQuestion() {
         input.addEventListener('keydown', function(e) {
             const currentIndex = parseInt(e.target.dataset.index);
             
+            // 스페이스바 입력 방지
+            if (e.key === ' ' || e.code === 'Space') {
+                e.preventDefault();
+                return;
+            }
+            
             if (e.key === 'Backspace' && !e.target.value && currentIndex > 0) {
                 const prevInput = inputBoxes.children[currentIndex - 1];
                 if (prevInput) prevInput.focus();
