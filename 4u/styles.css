@@ -39,23 +39,18 @@ body {
     position: absolute;
     left: 0;
     top: 0;
-    background: white;
-    color: #333;
-    border: 2px solid #ddd;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
     padding: 10px 20px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 1em;
-    font-weight: 600;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .back-btn:hover {
-    background: #f5f5f5;
-    border-color: #999;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* ========== Language Selector 숨김 ========== */
@@ -296,10 +291,6 @@ body {
 
 .progress-info {
     margin-top: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar-small {
@@ -431,13 +422,8 @@ body {
 .learning-title {
     font-size: 1.8em;
     font-weight: bold;
-    color: #222;
+    color: #333;
     margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: inline-block;
 }
 
 .close-btn {
@@ -458,16 +444,10 @@ body {
 }
 
 #questionCounter {
-    font-size: 1.3em;
-    color: #222;
-    font-weight: 700;
-    margin-bottom: 12px;
+    font-size: 1.1em;
+    color: white;
+    margin-bottom: 10px;
     display: block;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 10px 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: inline-block;
 }
 
 .progress-bar {
@@ -476,8 +456,6 @@ body {
     background: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
-    margin-top: 8px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-fill {
@@ -589,20 +567,15 @@ body {
     height: 55px;
     font-size: 1.5em;
     text-align: center;
-    background: white;
-    color: #333;
     border: 2px solid #ddd;
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-weight: 600;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .input-box:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-    background: white;
 }
 
 .input-box.correct {
@@ -1064,36 +1037,6 @@ body {
 }
 
 /* ========== 학습 모드 (Shrimp 방식) ========== */
-.learning-mode {
-    display: none;
-}
-
-.learning-mode.active {
-    display: block;
-}
-
-.learning-container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.learning-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #e0e0e0;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 20px;
-    border-radius: 15px;
-}
-
 .action-btn {
     padding: 12px 30px;
     border: none;
@@ -1105,16 +1048,12 @@ body {
 }
 
 .action-btn.back {
-    background: white;
-    color: #333;
-    border: 2px solid #ddd;
-    font-weight: 600;
+    background: #f5f5f5;
+    color: white;
 }
 
 .action-btn.back:hover {
-    background: #f5f5f5;
-    border-color: #999;
-    transform: translateY(-2px);
+    background: #e0e0e0;
 }
 
 .action-btn.submit {
@@ -1144,67 +1083,45 @@ body {
 
 .question-container {
     margin-top: 30px;
-    text-align: center;
 }
 
 .pos-label {
-    font-size: 1.2em;
-    color: #555;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    display: inline-block;
-    padding: 8px 20px;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 1em;
+    color: #888;
+    margin-bottom: 10px;
 }
 
 .question-text {
-    font-size: 2.8em;
+    font-size: 2.5em;
     font-weight: bold;
-    color: #222;
-    margin-bottom: 20px;
+    color: #333;
+    margin-bottom: 15px;
     text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .example-sentence {
-    font-size: 1.15em;
-    color: #333;
+    font-size: 1.1em;
+    color: white;
     font-style: italic;
     margin-bottom: 30px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.92);
-    padding: 18px 28px;
-    border-radius: 12px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    font-weight: 500;
-    line-height: 1.6;
 }
 
 /* ========== MC 선택지 (Shrimp 방식) ========== */
 .choice-btn {
     padding: 20px;
-    background: white;
-    border: 3px solid #ddd;
+    background: #f5f5f5;
+    border: 3px solid transparent;
     border-radius: 12px;
     font-size: 1.1em;
-    color: #333;
-    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .choice-btn:hover:not(:disabled) {
-    background: #f5f5f5;
-    border-color: #999;
+    background: #e8e8e8;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .choice-btn.selected.correct {
@@ -1232,18 +1149,17 @@ body {
 .back-btn-modal {
     padding: 15px 40px;
     font-size: 1.1em;
-    border: 2px solid #ddd;
+    border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    background: white;
-    color: #333;
+    background: #f5f5f5;
+    color: white;
 }
 
 .back-btn-modal:hover {
-    background: #f5f5f5;
-    border-color: #999;
+    background: #e0e0e0;
     transform: translateY(-2px);
 }
 

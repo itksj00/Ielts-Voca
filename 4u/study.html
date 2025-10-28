@@ -112,6 +112,23 @@
     <script src="js/app.js"></script>
     <script src="js/language.js"></script>
     <script>
+        // 디버깅: 데이터 로딩 확인
+        console.log('=== Data Loading Check ===');
+        console.log('VOCAB_DATA exists?', !!window.VOCAB_DATA);
+        if (window.VOCAB_DATA) {
+            console.log('Available exams:', Object.keys(window.VOCAB_DATA));
+            if (window.VOCAB_DATA.topik) {
+                console.log('TOPIK difficulties:', Object.keys(window.VOCAB_DATA.topik));
+            }
+            if (window.VOCAB_DATA.ielts) {
+                console.log('IELTS difficulties:', Object.keys(window.VOCAB_DATA.ielts));
+            }
+        } else {
+            console.error('VOCAB_DATA not loaded!');
+        }
+        console.log('EXAM_CONFIG exists?', !!window.EXAM_CONFIG);
+        console.log('=========================');
+        
         function goBackToExamSelect() {
             const exam = window.currentExam;
             if (exam === 'topik') {
