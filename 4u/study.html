@@ -30,9 +30,15 @@
         <div id="learningMode" class="learning-mode">
             <div class="learning-container">
                 <div class="learning-header">
-                    <button class="back-btn" onclick="backToLevelSelection()">← 뒤로</button>
-                    <div>
+                    <div class="header-top">
                         <div class="learning-title" id="modeTitle"></div>
+                        <button class="back-btn-floating" onclick="backToLevelSelection()">← 돌아가기</button>
+                    </div>
+                    <div class="progress-info">
+                        <span id="questionCounter">1 / 35</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
 

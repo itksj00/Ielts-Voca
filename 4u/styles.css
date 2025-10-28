@@ -425,7 +425,59 @@ body {
     font-size: 1.8em;
     font-weight: bold;
     color: #333;
+}
+
+.learning-header {
+    margin-bottom: 30px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+}
+
+.back-btn-floating {
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.back-btn-floating:hover {
+    background: white;
+    border-color: white;
+}
+
+.progress-info {
+    display: block;
+}
+
+#questionCounter {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #4CAF50;
+    transition: width 0.3s ease;
 }
 
 .close-btn {
@@ -653,13 +705,21 @@ body {
 }
 
 .next-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #81D4FA;
     color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
 }
 
 .next-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    background: #4FC3F7;
+}
+
+.next-btn:disabled {
+    background: #B0BEC5;
+    color: white;
+    cursor: not-allowed;
 }
 
 .retry-btn {
