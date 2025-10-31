@@ -1,0 +1,53 @@
+# 모바일 404 에러 해결을 위한 .htaccess 설정
+
+# 1. 올바른 MIME 타입 설정
+AddType text/html .html
+AddType text/css .css
+AddType application/javascript .js
+AddType image/png .png
+AddType image/jpeg .jpg .jpeg
+
+# 2. UTF-8 인코딩 설정
+AddDefaultCharset UTF-8
+
+# 3. 대소문자 구분 문제 해결 (선택사항)
+# Options +FollowSymLinks
+# RewriteEngine On
+# RewriteMap lowercase int:tolower
+# RewriteCond %{REQUEST_URI} [A-Z]
+# RewriteRule ^(.*)$ ${lowercase:$1} [R=301,L]
+
+# 4. 브라우저 캐싱 설정
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>
+
+# 5. 압축 설정 (성능 향상)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+</IfModule>
+
+# 6. 모바일 User-Agent 허용
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # 모든 모바일 디바이스 허용
+    RewriteCond %{HTTP_USER_AGENT} "android|iphone|ipad|ipod|blackberry|iemobile|opera mobile" [NC]
+    RewriteRule .* - [E=MOBILE:1]
+</IfModule>
+
+# 7. 디렉토리 인덱스 설정
+DirectoryIndex index.html
+
+# 8. 에러 페이지 설정 (선택사항)
+# ErrorDocument 404 /index.html
+
+# 9. CORS 설정 (로컬 파일 접근 허용)
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+</IfModule>
