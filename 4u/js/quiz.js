@@ -218,10 +218,12 @@ function displayTPQuestion() {
             const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
             e.target.value = value;
             
-            // 한글 조합 완료 후 다음 칸으로
+            // 한글 조합 완료 후 자동으로 다음 칸으로 이동 (약간의 지연)
             if (value && currentIndex < answer.length - 1) {
-                const nextInput = inputBoxes.children[currentIndex + 1];
-                if (nextInput) nextInput.focus();
+                setTimeout(() => {
+                    const nextInput = inputBoxes.children[currentIndex + 1];
+                    if (nextInput) nextInput.focus();
+                }, 10);
             }
         });
         
@@ -233,8 +235,8 @@ function displayTPQuestion() {
             const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
             e.target.value = value;
             
-            // 영어는 즉시 다음 칸으로
-            if (value && currentIndex < answer.length - 1) {
+            // 영어만 즉시 다음 칸으로 (한글은 compositionend에서 처리)
+            if (!isKoreanExam && value && currentIndex < answer.length - 1) {
                 const nextInput = inputBoxes.children[currentIndex + 1];
                 if (nextInput) nextInput.focus();
             }
@@ -243,9 +245,13 @@ function displayTPQuestion() {
         input.addEventListener('keydown', function(e) {
             const currentIndex = parseInt(e.target.dataset.index);
             
-            // 스페이스바 입력 방지
+            // 스페이스바로 다음 칸 이동
             if (e.key === ' ' || e.code === 'Space') {
                 e.preventDefault();
+                if (e.target.value && currentIndex < answer.length - 1) {
+                    const nextInput = inputBoxes.children[currentIndex + 1];
+                    if (nextInput) nextInput.focus();
+                }
                 return;
             }
             
