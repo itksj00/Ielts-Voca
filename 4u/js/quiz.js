@@ -257,10 +257,12 @@ function displayTPQuestion() {
         // 한글 조합 중 여부 추적
         let isComposing = false;
         let compositionHandled = false;
+        let spaceKeyPressed = false;
         
         input.addEventListener('compositionstart', function(e) {
             isComposing = true;
             compositionHandled = false;
+            spaceKeyPressed = false;
             console.log('compositionstart', e.target.dataset.index);
         });
         
@@ -276,8 +278,8 @@ function displayTPQuestion() {
             const currentIndex = parseInt(e.target.dataset.index);
             const value = e.target.value;
             
-            // 한글 조합 완료 후 자동으로 다음 칸으로 이동
-            if (value && currentIndex < answer.length - 1) {
+            // 스페이스바로 인한 종료가 아니면 자동 이동
+            if (!spaceKeyPressed && value && currentIndex < answer.length - 1) {
                 setTimeout(() => {
                     // 중복 방지 플래그 초기화 (다음 입력을 위해)
                     compositionHandled = false;
@@ -285,15 +287,16 @@ function displayTPQuestion() {
                     if (nextInput) nextInput.focus();
                 }, 50);
             } else {
-                // 마지막 칸이면 플래그만 초기화
+                // 스페이스바로 인한 종료거나 마지막 칸이면 플래그만 초기화
                 setTimeout(() => {
                     compositionHandled = false;
+                    spaceKeyPressed = false;
                 }, 100);
             }
         });
         
         input.addEventListener('input', function(e) {
-            console.log('input event', e.target.value, 'isComposing:', isComposing, 'compositionHandled:', compositionHandled);
+            console.log('input event', e.target.value, 'isComposing:', isComposing, 'compositionHandled:', compositionHandled, 'spaceKey:', spaceKeyPressed);
             
             // 한글 조합 중에는 완전히 무시
             if (isComposing) {
@@ -304,6 +307,13 @@ function displayTPQuestion() {
             // compositionend 직후 input 이벤트는 무시
             if (compositionHandled) {
                 console.log('input ignored - composition just handled');
+                return;
+            }
+            
+            // 스페이스바 직후 input 이벤트는 무시
+            if (spaceKeyPressed) {
+                console.log('input ignored - space key pressed');
+                spaceKeyPressed = false;
                 return;
             }
             
@@ -327,10 +337,33 @@ function displayTPQuestion() {
             // 스페이스바로 다음 칸 이동
             if (e.key === ' ' || e.code === 'Space') {
                 e.preventDefault();
+                e.stopPropagation();
+                console.log('Space key pressed at index', currentIndex);
+                
+                spaceKeyPressed = true;
+                
+                // 한글 조합 중이면 강제로 종료
+                if (isComposing) {
+                    console.log('Forcing composition end');
+                    isComposing = false;
+                    compositionHandled = true;
+                }
+                
+                // 현재 값이 있고 다음 칸이 있으면 이동
                 if (e.target.value && currentIndex < answer.length - 1) {
                     const nextInput = inputBoxes.children[currentIndex + 1];
-                    if (nextInput) nextInput.focus();
+                    if (nextInput) {
+                        console.log('Moving to next input');
+                        nextInput.focus();
+                    }
                 }
+                
+                // 플래그 초기화
+                setTimeout(() => {
+                    spaceKeyPressed = false;
+                    compositionHandled = false;
+                }, 100);
+                
                 return;
             }
             
