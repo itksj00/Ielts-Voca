@@ -256,50 +256,69 @@ function displayTPQuestion() {
         
         // 한글 조합 중 여부 추적
         let isComposing = false;
-        let lastCompositionValue = '';
+        let compositionHandled = false;
         
-        input.addEventListener('compositionstart', function() {
+        input.addEventListener('compositionstart', function(e) {
             isComposing = true;
+            compositionHandled = false;
+            console.log('compositionstart', e.target.dataset.index);
+        });
+        
+        input.addEventListener('compositionupdate', function(e) {
+            console.log('compositionupdate', e.data);
         });
         
         input.addEventListener('compositionend', function(e) {
+            console.log('compositionend', e.target.value);
             isComposing = false;
-            lastCompositionValue = e.target.value;
-            const currentIndex = parseInt(e.target.dataset.index);
+            compositionHandled = true;
             
-            // 한글 조합 완료 후 자동으로 다음 칸으로 이동 (약간의 지연)
-            if (e.target.value && currentIndex < answer.length - 1) {
+            const currentIndex = parseInt(e.target.dataset.index);
+            const value = e.target.value;
+            
+            // 한글 조합 완료 후 자동으로 다음 칸으로 이동
+            if (value && currentIndex < answer.length - 1) {
                 setTimeout(() => {
+                    // 중복 방지 플래그 초기화 (다음 입력을 위해)
+                    compositionHandled = false;
                     const nextInput = inputBoxes.children[currentIndex + 1];
                     if (nextInput) nextInput.focus();
-                }, 10);
+                }, 50);
+            } else {
+                // 마지막 칸이면 플래그만 초기화
+                setTimeout(() => {
+                    compositionHandled = false;
+                }, 100);
             }
         });
         
         input.addEventListener('input', function(e) {
+            console.log('input event', e.target.value, 'isComposing:', isComposing, 'compositionHandled:', compositionHandled);
+            
             // 한글 조합 중에는 완전히 무시
             if (isComposing) {
+                console.log('input ignored - composing');
+                return;
+            }
+            
+            // compositionend 직후 input 이벤트는 무시
+            if (compositionHandled) {
+                console.log('input ignored - composition just handled');
                 return;
             }
             
             const currentIndex = parseInt(e.target.dataset.index);
             
-            // compositionend 직후 input 이벤트는 무시 (중복 방지)
-            if (isKoreanExam && e.target.value === lastCompositionValue) {
-                lastCompositionValue = '';
-                return;
-            }
-            
-            // 영어일 때만 소문자 변환
+            // 영어일 때만 소문자 변환 및 다음 칸으로
             if (!isKoreanExam) {
                 e.target.value = e.target.value.toLowerCase();
+                if (e.target.value && currentIndex < answer.length - 1) {
+                    const nextInput = inputBoxes.children[currentIndex + 1];
+                    if (nextInput) nextInput.focus();
+                }
             }
             
-            // 영어만 즉시 다음 칸으로 (한글은 compositionend에서 처리)
-            if (!isKoreanExam && e.target.value && currentIndex < answer.length - 1) {
-                const nextInput = inputBoxes.children[currentIndex + 1];
-                if (nextInput) nextInput.focus();
-            }
+            console.log('input processed:', e.target.value);
         });
         
         input.addEventListener('keydown', function(e) {
