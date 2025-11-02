@@ -1764,13 +1764,22 @@ html, body {
 .menu-card,
 .collection-card,
 .difficulty-card,
-.level-card,
-.choice-btn,
-.mode-btn {
+.level-card {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+/* 버튼은 클릭 가능하도록 user-select 제외 */
+.choice-btn,
+.mode-btn,
+.action-btn,
+button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation; /* 더블탭 줌 방지 */
 }
 
 /* iOS input 자동 확대 방지 */

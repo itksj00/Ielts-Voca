@@ -63,7 +63,25 @@ function displayMCQuestion() {
             const btn = document.createElement('button');
             btn.className = 'choice-btn';
             btn.textContent = answer;
-            btn.onclick = () => selectMCAnswer(answer, question.english, idx);
+            
+            // 터치와 클릭 중복 방지
+            let touchHandled = false;
+            
+            btn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                touchHandled = true;
+                selectMCAnswer(answer, question.english, idx);
+                setTimeout(() => { touchHandled = false; }, 500);
+            }, { passive: false });
+            
+            btn.addEventListener('click', function(e) {
+                if (touchHandled) return;
+                e.preventDefault();
+                e.stopPropagation();
+                selectMCAnswer(answer, question.english, idx);
+            });
+            
             choicesContainer.appendChild(btn);
         });
     } else {
@@ -98,7 +116,25 @@ function displayMCQuestion() {
             const btn = document.createElement('button');
             btn.className = 'choice-btn';
             btn.textContent = answer;
-            btn.onclick = () => selectMCAnswer(answer, question.korean, idx);
+            
+            // 터치와 클릭 중복 방지
+            let touchHandled = false;
+            
+            btn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                touchHandled = true;
+                selectMCAnswer(answer, question.korean, idx);
+                setTimeout(() => { touchHandled = false; }, 500);
+            }, { passive: false });
+            
+            btn.addEventListener('click', function(e) {
+                if (touchHandled) return;
+                e.preventDefault();
+                e.stopPropagation();
+                selectMCAnswer(answer, question.korean, idx);
+            });
+            
             choicesContainer.appendChild(btn);
         });
     }
@@ -113,10 +149,17 @@ function handleMCEnter(e) {
 }
 
 function selectMCAnswer(selected, correct, idx) {
-    if (window.answered) return;
+    console.log('selectMCAnswer called:', { selected, correct, idx, answered: window.answered });
+    
+    if (window.answered) {
+        console.log('Already answered, returning');
+        return;
+    }
 
     const isCorrect = selected === correct;
     window.answered = true;
+
+    console.log('Answer is:', isCorrect ? 'CORRECT' : 'INCORRECT');
 
     if (isCorrect) {
         window.score++;
@@ -126,15 +169,19 @@ function selectMCAnswer(selected, correct, idx) {
     updateStats(isCorrect, question);
 
     const choiceBtns = document.querySelectorAll('.choice-btn');
+    console.log('Found choice buttons:', choiceBtns.length);
+    
     choiceBtns.forEach((btn, i) => {
         btn.disabled = true;
         if (btn.textContent === correct) {
             btn.classList.add('selected', 'correct');
+            console.log('Marking button', i, 'as correct');
         }
     });
 
     if (!isCorrect) {
         choiceBtns[idx].classList.add('selected', 'incorrect');
+        console.log('Marking button', idx, 'as incorrect');
     }
 
     const feedback = document.getElementById('mcFeedback');
@@ -146,7 +193,9 @@ function selectMCAnswer(selected, correct, idx) {
         feedback.classList.add('show', 'incorrect');
     }
 
-    document.getElementById('mcNextBtn').disabled = false;
+    const nextBtn = document.getElementById('mcNextBtn');
+    nextBtn.disabled = false;
+    console.log('Next button enabled');
 }
 
 function nextMCQuestion() {
@@ -207,6 +256,7 @@ function displayTPQuestion() {
         
         // 한글 조합 중 여부 추적
         let isComposing = false;
+        let lastCompositionValue = '';
         
         input.addEventListener('compositionstart', function() {
             isComposing = true;
@@ -214,12 +264,11 @@ function displayTPQuestion() {
         
         input.addEventListener('compositionend', function(e) {
             isComposing = false;
+            lastCompositionValue = e.target.value;
             const currentIndex = parseInt(e.target.dataset.index);
-            const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
-            e.target.value = value;
             
             // 한글 조합 완료 후 자동으로 다음 칸으로 이동 (약간의 지연)
-            if (value && currentIndex < answer.length - 1) {
+            if (e.target.value && currentIndex < answer.length - 1) {
                 setTimeout(() => {
                     const nextInput = inputBoxes.children[currentIndex + 1];
                     if (nextInput) nextInput.focus();
@@ -228,15 +277,26 @@ function displayTPQuestion() {
         });
         
         input.addEventListener('input', function(e) {
-            // 한글 조합 중에는 무시
-            if (isComposing) return;
+            // 한글 조합 중에는 완전히 무시
+            if (isComposing) {
+                return;
+            }
             
             const currentIndex = parseInt(e.target.dataset.index);
-            const value = isKoreanExam ? e.target.value : e.target.value.toLowerCase();
-            e.target.value = value;
+            
+            // compositionend 직후 input 이벤트는 무시 (중복 방지)
+            if (isKoreanExam && e.target.value === lastCompositionValue) {
+                lastCompositionValue = '';
+                return;
+            }
+            
+            // 영어일 때만 소문자 변환
+            if (!isKoreanExam) {
+                e.target.value = e.target.value.toLowerCase();
+            }
             
             // 영어만 즉시 다음 칸으로 (한글은 compositionend에서 처리)
-            if (!isKoreanExam && value && currentIndex < answer.length - 1) {
+            if (!isKoreanExam && e.target.value && currentIndex < answer.length - 1) {
                 const nextInput = inputBoxes.children[currentIndex + 1];
                 if (nextInput) nextInput.focus();
             }
