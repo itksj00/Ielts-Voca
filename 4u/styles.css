@@ -1840,3 +1840,72 @@ input, textarea, select, .input-box {
         margin-bottom: 15px;
     }
 }
+
+
+/* ========== 레벨 잠금 개선 스타일 ========== */
+
+/* 진행중 배지 */
+.status-badge.partial {
+    background: linear-gradient(135deg, #FFA726 0%, #FF9800 100%);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+/* MC/TP 점수 통과/실패 표시 */
+.mc-score.passed,
+.tp-score.passed {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.mc-score.failed,
+.tp-score.failed {
+    color: #f44336;
+}
+
+.score-display {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+    flex-wrap: wrap;
+}
+
+.mc-score,
+.tp-score {
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-size: 0.9em;
+}
+
+/* 잠긴 레벨 표시 개선 */
+.level-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.level-card.disabled::after {
+    content: '🔒';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5em;
+}
+
+.level-card.disabled .mode-btn {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* 레벨 카드 호버 효과 개선 */
+.level-card:not(.disabled):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}

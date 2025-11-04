@@ -331,6 +331,21 @@ function displayTPQuestion() {
             console.log('input processed:', e.target.value);
         });
         
+        // focus 이벤트 추가 - 잘못된 값 제거
+        input.addEventListener('focus', function(e) {
+            const currentIndex = parseInt(e.target.dataset.index);
+            console.log('focus event at index', currentIndex, 'value:', e.target.value);
+            
+            // 이전 칸이 있고, 현재 칸의 값이 이전 칸의 값과 같으면 삭제
+            if (currentIndex > 0) {
+                const prevInput = inputBoxes.children[currentIndex - 1];
+                if (prevInput && e.target.value === prevInput.value && e.target.value !== '') {
+                    console.log('Clearing duplicated value:', e.target.value);
+                    e.target.value = '';
+                }
+            }
+        });
+        
         input.addEventListener('keydown', function(e) {
             const currentIndex = parseInt(e.target.dataset.index);
             
@@ -338,6 +353,7 @@ function displayTPQuestion() {
             if (e.key === ' ' || e.code === 'Space') {
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation(); // 모든 이벤트 전파 중단
                 console.log('Space key pressed at index', currentIndex);
                 
                 spaceKeyPressed = true;
@@ -349,22 +365,36 @@ function displayTPQuestion() {
                     compositionHandled = true;
                 }
                 
+                // 현재 값 저장
+                const currentValue = e.target.value;
+                console.log('Current value:', currentValue);
+                
                 // 현재 값이 있고 다음 칸이 있으면 이동
-                if (e.target.value && currentIndex < answer.length - 1) {
+                if (currentValue && currentIndex < answer.length - 1) {
                     const nextInput = inputBoxes.children[currentIndex + 1];
                     if (nextInput) {
                         console.log('Moving to next input');
-                        nextInput.focus();
+                        // 약간의 지연을 두고 이동
+                        setTimeout(() => {
+                            nextInput.focus();
+                            // 다음 칸이 비어있는지 확인
+                            if (nextInput.value) {
+                                console.log('WARNING: Next input already has value:', nextInput.value);
+                                nextInput.value = ''; // 강제로 비우기
+                            }
+                            spaceKeyPressed = false;
+                            compositionHandled = false;
+                        }, 10);
                     }
+                } else {
+                    // 이동하지 않는 경우에도 플래그 초기화
+                    setTimeout(() => {
+                        spaceKeyPressed = false;
+                        compositionHandled = false;
+                    }, 100);
                 }
                 
-                // 플래그 초기화
-                setTimeout(() => {
-                    spaceKeyPressed = false;
-                    compositionHandled = false;
-                }, 100);
-                
-                return;
+                return false; // 이벤트 완전 차단
             }
             
             if (e.key === 'Backspace' && !e.target.value && currentIndex > 0) {

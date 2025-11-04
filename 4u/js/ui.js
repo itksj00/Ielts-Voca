@@ -30,9 +30,10 @@ function renderLevelSelection() {
         const levelKey = getLevelKey(exam, difficulty, i);
         const levelInfo = window.progress.levels[levelKey];
         
-        // 첫 레벨이거나 이전 레벨을 통과한 경우 잠금 해제
+        // 첫 레벨이거나 이전 레벨을 MC와 TP 둘 다 통과한 경우 잠금 해제
         const prevLevelKey = getLevelKey(exam, difficulty, i - 1);
-        const isUnlocked = i === 1 || (window.progress.levels[prevLevelKey] && window.progress.levels[prevLevelKey].mcPassed);
+        const prevLevelInfo = window.progress.levels[prevLevelKey];
+        const isUnlocked = i === 1 || (prevLevelInfo && prevLevelInfo.mcPassed && prevLevelInfo.tpPassed);
         
         const card = document.createElement('div');
         card.className = 'level-card' + (isUnlocked ? '' : ' disabled');
@@ -41,6 +42,9 @@ function renderLevelSelection() {
         let statusHTML = '';
         if (levelInfo && levelInfo.mcPassed && levelInfo.tpPassed) {
             statusHTML = '<div class="status-badge">✓ 완료</div>';
+        } else if (levelInfo && (levelInfo.mcPassed || levelInfo.tpPassed)) {
+            // 하나만 통과한 경우
+            statusHTML = '<div class="status-badge partial">⚠ 진행중</div>';
         }
 
         // 점수 표시
@@ -48,10 +52,12 @@ function renderLevelSelection() {
         if (levelInfo && (levelInfo.mcTotal > 0 || levelInfo.tpTotal > 0)) {
             scoreHTML = '<div class="score-display">';
             if (levelInfo.mcTotal > 0) {
-                scoreHTML += `<span class="mc-score">MC: ${levelInfo.mcScore}/${levelInfo.mcTotal}</span>`;
+                const mcStatus = levelInfo.mcPassed ? '✓' : '✗';
+                scoreHTML += `<span class="mc-score ${levelInfo.mcPassed ? 'passed' : 'failed'}">MC: ${levelInfo.mcScore}/${levelInfo.mcTotal} ${mcStatus}</span>`;
             }
             if (levelInfo.tpTotal > 0) {
-                scoreHTML += `<span class="tp-score">TP: ${levelInfo.tpScore}/${levelInfo.tpTotal}</span>`;
+                const tpStatus = levelInfo.tpPassed ? '✓' : '✗';
+                scoreHTML += `<span class="tp-score ${levelInfo.tpPassed ? 'passed' : 'failed'}">TP: ${levelInfo.tpScore}/${levelInfo.tpTotal} ${tpStatus}</span>`;
             }
             scoreHTML += '</div>';
         }
