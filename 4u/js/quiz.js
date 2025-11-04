@@ -488,6 +488,14 @@ function nextTPQuestion() {
  * 결과 모달 표시
  */
 function showResultModal() {
+    console.log('=== showResultModal called ===');
+    console.log('Score:', window.score);
+    console.log('Total questions:', window.currentQuestions.length);
+    console.log('Current exam:', window.currentExam);
+    console.log('Current difficulty:', window.currentDifficulty);
+    console.log('Current level:', window.currentLevel);
+    console.log('Current mode:', window.currentMode);
+    
     document.removeEventListener('keydown', handleMCEnter);
     const tpNextBtn = document.getElementById('tpNextBtn');
     if (tpNextBtn) {
@@ -498,6 +506,8 @@ function showResultModal() {
     const percentage = Math.round((window.score / total) * 100);
     const passed = percentage >= 90;
 
+    console.log('Percentage:', percentage, 'Passed:', passed);
+
     let resultTitle = '';
     if (percentage === 100) {
         resultTitle = '완벽합니다! 🎉';
@@ -507,27 +517,56 @@ function showResultModal() {
         resultTitle = '다시 시도해주세요 📝';
     }
 
+    console.log('Setting result title:', resultTitle);
     document.getElementById('resultTitle').textContent = resultTitle;
     document.getElementById('resultScore').textContent = window.score + ' / ' + total;
     document.getElementById('resultMessage').textContent = '정답률: ' + percentage + '% ' + (passed ? '통과했습니다!' : '통과하지 못했습니다.');
 
     const levelKey = getLevelKey(window.currentExam, window.currentDifficulty, window.currentLevel);
+    console.log('Level key:', levelKey);
+    
+    // progress.levels가 없으면 초기화
+    if (!window.progress.levels[levelKey]) {
+        console.log('WARNING: Level data not found, initializing...');
+        window.progress.levels[levelKey] = {
+            mcPassed: false,
+            tpPassed: false,
+            mcScore: 0,
+            tpScore: 0,
+            mcTotal: 0,
+            tpTotal: 0
+        };
+    }
+    
     if (window.currentMode === 'mc') {
         window.progress.levels[levelKey].mcScore = window.score;
         window.progress.levels[levelKey].mcTotal = total;
         if (passed) {
             window.progress.levels[levelKey].mcPassed = true;
         }
+        console.log('MC results saved:', window.progress.levels[levelKey]);
     } else {
         window.progress.levels[levelKey].tpScore = window.score;
         window.progress.levels[levelKey].tpTotal = total;
         if (passed) {
             window.progress.levels[levelKey].tpPassed = true;
         }
+        console.log('TP results saved:', window.progress.levels[levelKey]);
     }
+    
     saveProgressToStorage();
+    console.log('Progress saved to storage');
 
-    document.getElementById('resultModal').classList.add('show');
+    const resultModal = document.getElementById('resultModal');
+    if (!resultModal) {
+        console.error('ERROR: resultModal element not found!');
+        alert('결과: ' + window.score + '/' + total + ' (' + percentage + '%)');
+        return;
+    }
+    
+    console.log('Adding show class to modal');
+    resultModal.classList.add('show');
+    console.log('Modal classes:', resultModal.className);
 
     const levelData = window.progress.levels[levelKey];
     if (levelData.mcPassed && levelData.tpPassed && passed) {
@@ -535,6 +574,8 @@ function showResultModal() {
             alert('🎉 축하합니다! 이 레벨을 완전히 마스터했습니다!');
         }, 500);
     }
+    
+    console.log('=== showResultModal complete ===');
 }
 
 /**
